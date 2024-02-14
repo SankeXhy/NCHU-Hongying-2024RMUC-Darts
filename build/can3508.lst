@@ -1,0 +1,654 @@
+ARM GAS  /tmp/ccimMWVg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"can3508.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "My_can/can3508.c"
+  20              		.section	.text.can_filter_init,"ax",%progbits
+  21              		.align	1
+  22              		.global	can_filter_init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	can_filter_init:
+  28              	.LFB130:
+   1:My_can/can3508.c **** 
+   2:My_can/can3508.c **** #include "can3508.h"
+   3:My_can/can3508.c **** 
+   4:My_can/can3508.c **** M3508_information M3508_1;
+   5:My_can/can3508.c **** M3508_information M3508_2;
+   6:My_can/can3508.c **** M3508_information M2006_1;
+   7:My_can/can3508.c **** 
+   8:My_can/can3508.c **** void can_filter_init(void)
+   9:My_can/can3508.c **** {
+  29              		.loc 1 9 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 40
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 8AB0     		sub	sp, sp, #40
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 48
+  10:My_can/can3508.c ****     CAN_FilterTypeDef can_filter_st;
+  41              		.loc 1 10 5 view .LVU1
+  11:My_can/can3508.c ****     can_filter_st.FilterActivation = ENABLE;
+  42              		.loc 1 11 5 view .LVU2
+  43              		.loc 1 11 36 is_stmt 0 view .LVU3
+  44 0004 0122     		movs	r2, #1
+  45 0006 0892     		str	r2, [sp, #32]
+  12:My_can/can3508.c ****     can_filter_st.FilterMode = CAN_FILTERMODE_IDMASK;
+  46              		.loc 1 12 5 is_stmt 1 view .LVU4
+ARM GAS  /tmp/ccimMWVg.s 			page 2
+
+
+  47              		.loc 1 12 30 is_stmt 0 view .LVU5
+  48 0008 0023     		movs	r3, #0
+  49 000a 0693     		str	r3, [sp, #24]
+  13:My_can/can3508.c ****     can_filter_st.FilterScale = CAN_FILTERSCALE_32BIT;
+  50              		.loc 1 13 5 is_stmt 1 view .LVU6
+  51              		.loc 1 13 31 is_stmt 0 view .LVU7
+  52 000c 0792     		str	r2, [sp, #28]
+  14:My_can/can3508.c ****     can_filter_st.FilterIdHigh = 0x0000;
+  53              		.loc 1 14 5 is_stmt 1 view .LVU8
+  54              		.loc 1 14 32 is_stmt 0 view .LVU9
+  55 000e 0093     		str	r3, [sp]
+  15:My_can/can3508.c ****     can_filter_st.FilterIdLow = 0x0000;
+  56              		.loc 1 15 5 is_stmt 1 view .LVU10
+  57              		.loc 1 15 31 is_stmt 0 view .LVU11
+  58 0010 0193     		str	r3, [sp, #4]
+  16:My_can/can3508.c ****     can_filter_st.FilterMaskIdHigh = 0x0000;
+  59              		.loc 1 16 5 is_stmt 1 view .LVU12
+  60              		.loc 1 16 36 is_stmt 0 view .LVU13
+  61 0012 0293     		str	r3, [sp, #8]
+  17:My_can/can3508.c ****     can_filter_st.FilterMaskIdLow = 0x0000;
+  62              		.loc 1 17 5 is_stmt 1 view .LVU14
+  63              		.loc 1 17 35 is_stmt 0 view .LVU15
+  64 0014 0393     		str	r3, [sp, #12]
+  18:My_can/can3508.c ****     can_filter_st.FilterBank = 0;
+  65              		.loc 1 18 5 is_stmt 1 view .LVU16
+  66              		.loc 1 18 30 is_stmt 0 view .LVU17
+  67 0016 0593     		str	r3, [sp, #20]
+  19:My_can/can3508.c ****     can_filter_st.FilterFIFOAssignment = CAN_RX_FIFO0;
+  68              		.loc 1 19 5 is_stmt 1 view .LVU18
+  69              		.loc 1 19 40 is_stmt 0 view .LVU19
+  70 0018 0493     		str	r3, [sp, #16]
+  20:My_can/can3508.c ****     HAL_CAN_ConfigFilter(&hcan1, &can_filter_st);
+  71              		.loc 1 20 5 is_stmt 1 view .LVU20
+  72 001a 0E4C     		ldr	r4, .L3
+  73 001c 6946     		mov	r1, sp
+  74 001e 2046     		mov	r0, r4
+  75 0020 FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+  76              	.LVL0:
+  21:My_can/can3508.c ****     HAL_CAN_Start(&hcan1);
+  77              		.loc 1 21 5 view .LVU21
+  78 0024 2046     		mov	r0, r4
+  79 0026 FFF7FEFF 		bl	HAL_CAN_Start
+  80              	.LVL1:
+  22:My_can/can3508.c ****     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+  81              		.loc 1 22 5 view .LVU22
+  82 002a 0221     		movs	r1, #2
+  83 002c 2046     		mov	r0, r4
+  84 002e FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+  85              	.LVL2:
+  23:My_can/can3508.c **** 
+  24:My_can/can3508.c **** 
+  25:My_can/can3508.c ****     can_filter_st.SlaveStartFilterBank = 14;
+  86              		.loc 1 25 5 view .LVU23
+  87              		.loc 1 25 40 is_stmt 0 view .LVU24
+  88 0032 0E23     		movs	r3, #14
+  89 0034 0993     		str	r3, [sp, #36]
+  26:My_can/can3508.c ****     can_filter_st.FilterBank = 14;
+ARM GAS  /tmp/ccimMWVg.s 			page 3
+
+
+  90              		.loc 1 26 5 is_stmt 1 view .LVU25
+  91              		.loc 1 26 30 is_stmt 0 view .LVU26
+  92 0036 0593     		str	r3, [sp, #20]
+  27:My_can/can3508.c ****     HAL_CAN_ConfigFilter(&hcan1, &can_filter_st);
+  93              		.loc 1 27 5 is_stmt 1 view .LVU27
+  94 0038 6946     		mov	r1, sp
+  95 003a 2046     		mov	r0, r4
+  96 003c FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+  97              	.LVL3:
+  28:My_can/can3508.c ****     HAL_CAN_Start(&hcan1);
+  98              		.loc 1 28 5 view .LVU28
+  99 0040 2046     		mov	r0, r4
+ 100 0042 FFF7FEFF 		bl	HAL_CAN_Start
+ 101              	.LVL4:
+  29:My_can/can3508.c ****     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+ 102              		.loc 1 29 5 view .LVU29
+ 103 0046 0221     		movs	r1, #2
+ 104 0048 2046     		mov	r0, r4
+ 105 004a FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+ 106              	.LVL5:
+  30:My_can/can3508.c **** }
+ 107              		.loc 1 30 1 is_stmt 0 view .LVU30
+ 108 004e 0AB0     		add	sp, sp, #40
+ 109              	.LCFI2:
+ 110              		.cfi_def_cfa_offset 8
+ 111              		@ sp needed
+ 112 0050 10BD     		pop	{r4, pc}
+ 113              	.L4:
+ 114 0052 00BF     		.align	2
+ 115              	.L3:
+ 116 0054 00000000 		.word	hcan1
+ 117              		.cfi_endproc
+ 118              	.LFE130:
+ 120              		.section	.text.set_M3508_1_motor_voltage,"ax",%progbits
+ 121              		.align	1
+ 122              		.global	set_M3508_1_motor_voltage
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	set_M3508_1_motor_voltage:
+ 128              	.LVL6:
+ 129              	.LFB131:
+  31:My_can/can3508.c **** 
+  32:My_can/can3508.c **** void set_M3508_1_motor_voltage(CAN_HandleTypeDef* hcan,int16_t v1,int16_t v2,int16_t v3,int16_t v4)
+  33:My_can/can3508.c **** {
+ 130              		.loc 1 33 1 is_stmt 1 view -0
+ 131              		.cfi_startproc
+ 132              		@ args = 4, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		.loc 1 33 1 is_stmt 0 view .LVU32
+ 135 0000 10B5     		push	{r4, lr}
+ 136              	.LCFI3:
+ 137              		.cfi_def_cfa_offset 8
+ 138              		.cfi_offset 4, -8
+ 139              		.cfi_offset 14, -4
+ 140 0002 8C46     		mov	ip, r1
+ 141 0004 1046     		mov	r0, r2
+ARM GAS  /tmp/ccimMWVg.s 			page 4
+
+
+ 142              	.LVL7:
+ 143              		.loc 1 33 1 view .LVU33
+ 144 0006 BDF908E0 		ldrsh	lr, [sp, #8]
+  34:My_can/can3508.c ****   static CAN_TxHeaderTypeDef tx_header;
+ 145              		.loc 1 34 3 is_stmt 1 view .LVU34
+  35:My_can/can3508.c ****   static uint8_t             tx_data[8] = {0};
+ 146              		.loc 1 35 3 view .LVU35
+  36:My_can/can3508.c **** 
+  37:My_can/can3508.c ****   tx_header.StdId = 0x200;
+ 147              		.loc 1 37 3 view .LVU36
+ 148              		.loc 1 37 19 is_stmt 0 view .LVU37
+ 149 000a 1049     		ldr	r1, .L7
+ 150              	.LVL8:
+ 151              		.loc 1 37 19 view .LVU38
+ 152 000c 4FF40072 		mov	r2, #512
+ 153              	.LVL9:
+ 154              		.loc 1 37 19 view .LVU39
+ 155 0010 0A60     		str	r2, [r1]
+  38:My_can/can3508.c ****   tx_header.IDE   = CAN_ID_STD;
+ 156              		.loc 1 38 3 is_stmt 1 view .LVU40
+ 157              		.loc 1 38 19 is_stmt 0 view .LVU41
+ 158 0012 0022     		movs	r2, #0
+ 159 0014 8A60     		str	r2, [r1, #8]
+  39:My_can/can3508.c ****   tx_header.RTR   = CAN_RTR_DATA;
+ 160              		.loc 1 39 3 is_stmt 1 view .LVU42
+ 161              		.loc 1 39 19 is_stmt 0 view .LVU43
+ 162 0016 CA60     		str	r2, [r1, #12]
+  40:My_can/can3508.c ****   tx_header.DLC   = 0x08;
+ 163              		.loc 1 40 3 is_stmt 1 view .LVU44
+ 164              		.loc 1 40 19 is_stmt 0 view .LVU45
+ 165 0018 0822     		movs	r2, #8
+ 166 001a 0A61     		str	r2, [r1, #16]
+  41:My_can/can3508.c **** 
+  42:My_can/can3508.c ****   tx_data[0] = v1>>8;
+ 167              		.loc 1 42 3 is_stmt 1 view .LVU46
+ 168              		.loc 1 42 14 is_stmt 0 view .LVU47
+ 169 001c 0C4A     		ldr	r2, .L7+4
+ 170 001e 4FEA2C24 		asr	r4, ip, #8
+ 171 0022 1470     		strb	r4, [r2]
+  43:My_can/can3508.c ****   tx_data[1] = v1;
+ 172              		.loc 1 43 3 is_stmt 1 view .LVU48
+ 173              		.loc 1 43 14 is_stmt 0 view .LVU49
+ 174 0024 82F801C0 		strb	ip, [r2, #1]
+  44:My_can/can3508.c ****   tx_data[2] = v2>>8;
+ 175              		.loc 1 44 3 is_stmt 1 view .LVU50
+ 176              		.loc 1 44 14 is_stmt 0 view .LVU51
+ 177 0028 4FEA202C 		asr	ip, r0, #8
+ 178              	.LVL10:
+ 179              		.loc 1 44 14 view .LVU52
+ 180 002c 82F802C0 		strb	ip, [r2, #2]
+  45:My_can/can3508.c ****   tx_data[3] = v2;
+ 181              		.loc 1 45 3 is_stmt 1 view .LVU53
+ 182              		.loc 1 45 14 is_stmt 0 view .LVU54
+ 183 0030 D070     		strb	r0, [r2, #3]
+  46:My_can/can3508.c ****   tx_data[4] = v3>>8;
+ 184              		.loc 1 46 3 is_stmt 1 view .LVU55
+ 185              		.loc 1 46 14 is_stmt 0 view .LVU56
+ARM GAS  /tmp/ccimMWVg.s 			page 5
+
+
+ 186 0032 1812     		asrs	r0, r3, #8
+ 187              	.LVL11:
+ 188              		.loc 1 46 14 view .LVU57
+ 189 0034 1071     		strb	r0, [r2, #4]
+  47:My_can/can3508.c ****   tx_data[5] = v3;
+ 190              		.loc 1 47 3 is_stmt 1 view .LVU58
+ 191              		.loc 1 47 14 is_stmt 0 view .LVU59
+ 192 0036 5371     		strb	r3, [r2, #5]
+  48:My_can/can3508.c ****   tx_data[6] = v4>>8;
+ 193              		.loc 1 48 3 is_stmt 1 view .LVU60
+ 194              		.loc 1 48 14 is_stmt 0 view .LVU61
+ 195 0038 9DF90930 		ldrsb	r3, [sp, #9]
+ 196              	.LVL12:
+ 197              		.loc 1 48 14 view .LVU62
+ 198 003c 9371     		strb	r3, [r2, #6]
+  49:My_can/can3508.c ****   tx_data[7] = v4;
+ 199              		.loc 1 49 3 is_stmt 1 view .LVU63
+ 200              		.loc 1 49 14 is_stmt 0 view .LVU64
+ 201 003e 82F807E0 		strb	lr, [r2, #7]
+  50:My_can/can3508.c **** 
+  51:My_can/can3508.c ****   HAL_CAN_AddTxMessage(&hcan1, &tx_header, tx_data,(uint32_t*)CAN_TX_MAILBOX0);
+ 202              		.loc 1 51 3 is_stmt 1 view .LVU65
+ 203 0042 0123     		movs	r3, #1
+ 204 0044 0348     		ldr	r0, .L7+8
+ 205 0046 FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 206              	.LVL13:
+  52:My_can/can3508.c **** }
+ 207              		.loc 1 52 1 is_stmt 0 view .LVU66
+ 208 004a 10BD     		pop	{r4, pc}
+ 209              	.LVL14:
+ 210              	.L8:
+ 211              		.loc 1 52 1 view .LVU67
+ 212              		.align	2
+ 213              	.L7:
+ 214 004c 00000000 		.word	tx_header.1
+ 215 0050 00000000 		.word	tx_data.0
+ 216 0054 00000000 		.word	hcan1
+ 217              		.cfi_endproc
+ 218              	.LFE131:
+ 220              		.section	.text.HAL_CAN_RxFifo0MsgPendingCallback,"ax",%progbits
+ 221              		.align	1
+ 222              		.global	HAL_CAN_RxFifo0MsgPendingCallback
+ 223              		.syntax unified
+ 224              		.thumb
+ 225              		.thumb_func
+ 227              	HAL_CAN_RxFifo0MsgPendingCallback:
+ 228              	.LVL15:
+ 229              	.LFB132:
+  53:My_can/can3508.c **** 
+  54:My_can/can3508.c **** void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+  55:My_can/can3508.c **** {
+ 230              		.loc 1 55 1 is_stmt 1 view -0
+ 231              		.cfi_startproc
+ 232              		@ args = 0, pretend = 0, frame = 40
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+  56:My_can/can3508.c ****   CAN_RxHeaderTypeDef rx_header;
+ 234              		.loc 1 56 3 view .LVU69
+ARM GAS  /tmp/ccimMWVg.s 			page 6
+
+
+  57:My_can/can3508.c ****   uint8_t             rx_data[8];
+ 235              		.loc 1 57 3 view .LVU70
+  58:My_can/can3508.c ****   if(hcan->Instance == CAN1)
+ 236              		.loc 1 58 3 view .LVU71
+ 237              		.loc 1 58 10 is_stmt 0 view .LVU72
+ 238 0000 0268     		ldr	r2, [r0]
+ 239              		.loc 1 58 5 view .LVU73
+ 240 0002 374B     		ldr	r3, .L18
+ 241 0004 9A42     		cmp	r2, r3
+ 242 0006 00D0     		beq	.L17
+ 243 0008 7047     		bx	lr
+ 244              	.L17:
+  55:My_can/can3508.c ****   CAN_RxHeaderTypeDef rx_header;
+ 245              		.loc 1 55 1 view .LVU74
+ 246 000a 00B5     		push	{lr}
+ 247              	.LCFI4:
+ 248              		.cfi_def_cfa_offset 4
+ 249              		.cfi_offset 14, -4
+ 250 000c 8BB0     		sub	sp, sp, #44
+ 251              	.LCFI5:
+ 252              		.cfi_def_cfa_offset 48
+  59:My_can/can3508.c ****   {
+  60:My_can/can3508.c ****   HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_data); //receive can data
+ 253              		.loc 1 60 3 is_stmt 1 view .LVU75
+ 254 000e 01AB     		add	r3, sp, #4
+ 255 0010 03AA     		add	r2, sp, #12
+ 256 0012 0021     		movs	r1, #0
+ 257 0014 FFF7FEFF 		bl	HAL_CAN_GetRxMessage
+ 258              	.LVL16:
+  61:My_can/can3508.c ****   switch(rx_header.StdId)
+ 259              		.loc 1 61 3 view .LVU76
+ 260              		.loc 1 61 19 is_stmt 0 view .LVU77
+ 261 0018 039B     		ldr	r3, [sp, #12]
+ 262              		.loc 1 61 3 view .LVU78
+ 263 001a 40F20222 		movw	r2, #514
+ 264 001e 9342     		cmp	r3, r2
+ 265 0020 25D0     		beq	.L11
+ 266 0022 40F20322 		movw	r2, #515
+ 267 0026 9342     		cmp	r3, r2
+ 268 0028 3DD0     		beq	.L12
+ 269 002a 40F20122 		movw	r2, #513
+ 270 002e 9342     		cmp	r3, r2
+ 271 0030 1AD1     		bne	.L9
+  62:My_can/can3508.c **** 	{
+  63:My_can/can3508.c **** 	  case 0x201:
+  64:My_can/can3508.c **** 	{
+  65:My_can/can3508.c **** 		M3508_1.rotor_angle    = (uint16_t)((rx_data[0] << 8) | rx_data[1]);
+ 272              		.loc 1 65 3 is_stmt 1 view .LVU79
+ 273              		.loc 1 65 47 is_stmt 0 view .LVU80
+ 274 0032 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+ 275              		.loc 1 65 66 view .LVU81
+ 276 0036 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 277              		.loc 1 65 28 view .LVU82
+ 278 003a 43EA0223 		orr	r3, r3, r2, lsl #8
+ 279              		.loc 1 65 26 view .LVU83
+ 280 003e 294A     		ldr	r2, .L18+4
+ 281 0040 9380     		strh	r3, [r2, #4]	@ movhi
+ARM GAS  /tmp/ccimMWVg.s 			page 7
+
+
+  66:My_can/can3508.c **** 		M3508_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 282              		.loc 1 66 3 is_stmt 1 view .LVU84
+ 283              		.loc 1 66 47 is_stmt 0 view .LVU85
+ 284 0042 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 285              		.loc 1 66 28 view .LVU86
+ 286 0046 1B02     		lsls	r3, r3, #8
+ 287 0048 1BB2     		sxth	r3, r3
+ 288              		.loc 1 66 66 view .LVU87
+ 289 004a 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 290              		.loc 1 66 57 view .LVU88
+ 291 004e 0B43     		orrs	r3, r3, r1
+ 292              		.loc 1 66 26 view .LVU89
+ 293 0050 D380     		strh	r3, [r2, #6]	@ movhi
+  67:My_can/can3508.c **** 		M3508_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 294              		.loc 1 67 3 is_stmt 1 view .LVU90
+ 295              		.loc 1 67 47 is_stmt 0 view .LVU91
+ 296 0052 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 297              		.loc 1 67 28 view .LVU92
+ 298 0056 1B02     		lsls	r3, r3, #8
+ 299 0058 1BB2     		sxth	r3, r3
+ 300              		.loc 1 67 66 view .LVU93
+ 301 005a 9DF80910 		ldrb	r1, [sp, #9]	@ zero_extendqisi2
+ 302              		.loc 1 67 57 view .LVU94
+ 303 005e 0B43     		orrs	r3, r3, r1
+ 304              		.loc 1 67 26 view .LVU95
+ 305 0060 1381     		strh	r3, [r2, #8]	@ movhi
+  68:My_can/can3508.c **** 		M3508_1.temp           = (uint16_t)rx_data[6];
+ 306              		.loc 1 68 3 is_stmt 1 view .LVU96
+ 307              		.loc 1 68 45 is_stmt 0 view .LVU97
+ 308 0062 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+ 309              		.loc 1 68 26 view .LVU98
+ 310 0066 9372     		strb	r3, [r2, #10]
+  69:My_can/can3508.c **** 
+  70:My_can/can3508.c **** 		break;
+ 311              		.loc 1 70 3 is_stmt 1 view .LVU99
+ 312              	.L9:
+  71:My_can/can3508.c **** 	}
+  72:My_can/can3508.c **** 	  case 0x202:
+  73:My_can/can3508.c **** 	{
+  74:My_can/can3508.c **** 		M3508_2.rotor_angle    = (uint16_t)((rx_data[0] << 8) | rx_data[1]);
+  75:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+  76:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+  77:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+  78:My_can/can3508.c **** 
+  79:My_can/can3508.c **** 		break;
+  80:My_can/can3508.c **** 	}
+  81:My_can/can3508.c **** 	  case 0x203:
+  82:My_can/can3508.c **** 	{
+  83:My_can/can3508.c **** 		M2006_1.rotor_angle    = (uint16_t)((rx_data[0] << 8) | rx_data[1]);
+  84:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+  85:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+  86:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+  87:My_can/can3508.c **** 
+  88:My_can/can3508.c **** 		break;
+  89:My_can/can3508.c **** 	}
+  90:My_can/can3508.c **** 	}
+  91:My_can/can3508.c ****   }
+ARM GAS  /tmp/ccimMWVg.s 			page 8
+
+
+  92:My_can/can3508.c **** }
+ 313              		.loc 1 92 1 is_stmt 0 view .LVU100
+ 314 0068 0BB0     		add	sp, sp, #44
+ 315              	.LCFI6:
+ 316              		.cfi_remember_state
+ 317              		.cfi_def_cfa_offset 4
+ 318              		@ sp needed
+ 319 006a 5DF804FB 		ldr	pc, [sp], #4
+ 320              	.L11:
+ 321              	.LCFI7:
+ 322              		.cfi_restore_state
+  74:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 323              		.loc 1 74 3 is_stmt 1 view .LVU101
+  74:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 324              		.loc 1 74 47 is_stmt 0 view .LVU102
+ 325 006e 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+  74:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 326              		.loc 1 74 66 view .LVU103
+ 327 0072 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+  74:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 328              		.loc 1 74 28 view .LVU104
+ 329 0076 43EA0223 		orr	r3, r3, r2, lsl #8
+  74:My_can/can3508.c **** 		M3508_2.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 330              		.loc 1 74 26 view .LVU105
+ 331 007a 1B4A     		ldr	r2, .L18+8
+ 332 007c 9380     		strh	r3, [r2, #4]	@ movhi
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 333              		.loc 1 75 3 is_stmt 1 view .LVU106
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 334              		.loc 1 75 47 is_stmt 0 view .LVU107
+ 335 007e 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 336              		.loc 1 75 28 view .LVU108
+ 337 0082 1B02     		lsls	r3, r3, #8
+ 338 0084 1BB2     		sxth	r3, r3
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 339              		.loc 1 75 66 view .LVU109
+ 340 0086 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 341              		.loc 1 75 57 view .LVU110
+ 342 008a 0B43     		orrs	r3, r3, r1
+  75:My_can/can3508.c **** 		M3508_2.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 343              		.loc 1 75 26 view .LVU111
+ 344 008c D380     		strh	r3, [r2, #6]	@ movhi
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ 345              		.loc 1 76 3 is_stmt 1 view .LVU112
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ 346              		.loc 1 76 47 is_stmt 0 view .LVU113
+ 347 008e 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ 348              		.loc 1 76 28 view .LVU114
+ 349 0092 1B02     		lsls	r3, r3, #8
+ 350 0094 1BB2     		sxth	r3, r3
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ 351              		.loc 1 76 66 view .LVU115
+ 352 0096 9DF80910 		ldrb	r1, [sp, #9]	@ zero_extendqisi2
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ARM GAS  /tmp/ccimMWVg.s 			page 9
+
+
+ 353              		.loc 1 76 57 view .LVU116
+ 354 009a 0B43     		orrs	r3, r3, r1
+  76:My_can/can3508.c **** 		M3508_2.temp           = (uint16_t)rx_data[6];
+ 355              		.loc 1 76 26 view .LVU117
+ 356 009c 1381     		strh	r3, [r2, #8]	@ movhi
+  77:My_can/can3508.c **** 
+ 357              		.loc 1 77 3 is_stmt 1 view .LVU118
+  77:My_can/can3508.c **** 
+ 358              		.loc 1 77 45 is_stmt 0 view .LVU119
+ 359 009e 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+  77:My_can/can3508.c **** 
+ 360              		.loc 1 77 26 view .LVU120
+ 361 00a2 9372     		strb	r3, [r2, #10]
+  79:My_can/can3508.c **** 	}
+ 362              		.loc 1 79 3 is_stmt 1 view .LVU121
+ 363 00a4 E0E7     		b	.L9
+ 364              	.L12:
+  83:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 365              		.loc 1 83 3 view .LVU122
+  83:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 366              		.loc 1 83 47 is_stmt 0 view .LVU123
+ 367 00a6 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+  83:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 368              		.loc 1 83 66 view .LVU124
+ 369 00aa 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+  83:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 370              		.loc 1 83 28 view .LVU125
+ 371 00ae 43EA0223 		orr	r3, r3, r2, lsl #8
+  83:My_can/can3508.c **** 		M2006_1.rotor_speed    = (uint16_t)((rx_data[2] << 8) | rx_data[3]);
+ 372              		.loc 1 83 26 view .LVU126
+ 373 00b2 0E4A     		ldr	r2, .L18+12
+ 374 00b4 9380     		strh	r3, [r2, #4]	@ movhi
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 375              		.loc 1 84 3 is_stmt 1 view .LVU127
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 376              		.loc 1 84 47 is_stmt 0 view .LVU128
+ 377 00b6 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 378              		.loc 1 84 28 view .LVU129
+ 379 00ba 1B02     		lsls	r3, r3, #8
+ 380 00bc 1BB2     		sxth	r3, r3
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 381              		.loc 1 84 66 view .LVU130
+ 382 00be 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 383              		.loc 1 84 57 view .LVU131
+ 384 00c2 0B43     		orrs	r3, r3, r1
+  84:My_can/can3508.c **** 		M2006_1.torque_current = (uint16_t)((rx_data[4] << 8) | rx_data[5]);
+ 385              		.loc 1 84 26 view .LVU132
+ 386 00c4 D380     		strh	r3, [r2, #6]	@ movhi
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 387              		.loc 1 85 3 is_stmt 1 view .LVU133
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 388              		.loc 1 85 47 is_stmt 0 view .LVU134
+ 389 00c6 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 390              		.loc 1 85 28 view .LVU135
+ARM GAS  /tmp/ccimMWVg.s 			page 10
+
+
+ 391 00ca 1B02     		lsls	r3, r3, #8
+ 392 00cc 1BB2     		sxth	r3, r3
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 393              		.loc 1 85 66 view .LVU136
+ 394 00ce 9DF80910 		ldrb	r1, [sp, #9]	@ zero_extendqisi2
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 395              		.loc 1 85 57 view .LVU137
+ 396 00d2 0B43     		orrs	r3, r3, r1
+  85:My_can/can3508.c **** 		M2006_1.temp           = (uint16_t)rx_data[6];
+ 397              		.loc 1 85 26 view .LVU138
+ 398 00d4 1381     		strh	r3, [r2, #8]	@ movhi
+  86:My_can/can3508.c **** 
+ 399              		.loc 1 86 3 is_stmt 1 view .LVU139
+  86:My_can/can3508.c **** 
+ 400              		.loc 1 86 45 is_stmt 0 view .LVU140
+ 401 00d6 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+  86:My_can/can3508.c **** 
+ 402              		.loc 1 86 26 view .LVU141
+ 403 00da 9372     		strb	r3, [r2, #10]
+  88:My_can/can3508.c **** 	}
+ 404              		.loc 1 88 3 is_stmt 1 view .LVU142
+ 405              		.loc 1 92 1 is_stmt 0 view .LVU143
+ 406 00dc C4E7     		b	.L9
+ 407              	.L19:
+ 408 00de 00BF     		.align	2
+ 409              	.L18:
+ 410 00e0 00640040 		.word	1073767424
+ 411 00e4 00000000 		.word	M3508_1
+ 412 00e8 00000000 		.word	M3508_2
+ 413 00ec 00000000 		.word	M2006_1
+ 414              		.cfi_endproc
+ 415              	.LFE132:
+ 417              		.section	.bss.tx_data.0,"aw",%nobits
+ 418              		.align	2
+ 421              	tx_data.0:
+ 422 0000 00000000 		.space	8
+ 422      00000000 
+ 423              		.section	.bss.tx_header.1,"aw",%nobits
+ 424              		.align	2
+ 427              	tx_header.1:
+ 428 0000 00000000 		.space	24
+ 428      00000000 
+ 428      00000000 
+ 428      00000000 
+ 428      00000000 
+ 429              		.global	M2006_1
+ 430              		.section	.bss.M2006_1,"aw",%nobits
+ 431              		.align	2
+ 434              	M2006_1:
+ 435 0000 00000000 		.space	12
+ 435      00000000 
+ 435      00000000 
+ 436              		.global	M3508_2
+ 437              		.section	.bss.M3508_2,"aw",%nobits
+ 438              		.align	2
+ 441              	M3508_2:
+ 442 0000 00000000 		.space	12
+ARM GAS  /tmp/ccimMWVg.s 			page 11
+
+
+ 442      00000000 
+ 442      00000000 
+ 443              		.global	M3508_1
+ 444              		.section	.bss.M3508_1,"aw",%nobits
+ 445              		.align	2
+ 448              	M3508_1:
+ 449 0000 00000000 		.space	12
+ 449      00000000 
+ 449      00000000 
+ 450              		.text
+ 451              	.Letext0:
+ 452              		.file 2 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 453              		.file 3 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 454              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 455              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 456              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 457              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 458              		.file 8 "My_can/can3508.h"
+ 459              		.file 9 "Core/Inc/can.h"
+ARM GAS  /tmp/ccimMWVg.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 can3508.c
+     /tmp/ccimMWVg.s:21     .text.can_filter_init:00000000 $t
+     /tmp/ccimMWVg.s:27     .text.can_filter_init:00000000 can_filter_init
+     /tmp/ccimMWVg.s:116    .text.can_filter_init:00000054 $d
+     /tmp/ccimMWVg.s:121    .text.set_M3508_1_motor_voltage:00000000 $t
+     /tmp/ccimMWVg.s:127    .text.set_M3508_1_motor_voltage:00000000 set_M3508_1_motor_voltage
+     /tmp/ccimMWVg.s:214    .text.set_M3508_1_motor_voltage:0000004c $d
+     /tmp/ccimMWVg.s:427    .bss.tx_header.1:00000000 tx_header.1
+     /tmp/ccimMWVg.s:421    .bss.tx_data.0:00000000 tx_data.0
+     /tmp/ccimMWVg.s:221    .text.HAL_CAN_RxFifo0MsgPendingCallback:00000000 $t
+     /tmp/ccimMWVg.s:227    .text.HAL_CAN_RxFifo0MsgPendingCallback:00000000 HAL_CAN_RxFifo0MsgPendingCallback
+     /tmp/ccimMWVg.s:410    .text.HAL_CAN_RxFifo0MsgPendingCallback:000000e0 $d
+     /tmp/ccimMWVg.s:448    .bss.M3508_1:00000000 M3508_1
+     /tmp/ccimMWVg.s:441    .bss.M3508_2:00000000 M3508_2
+     /tmp/ccimMWVg.s:434    .bss.M2006_1:00000000 M2006_1
+     /tmp/ccimMWVg.s:418    .bss.tx_data.0:00000000 $d
+     /tmp/ccimMWVg.s:424    .bss.tx_header.1:00000000 $d
+     /tmp/ccimMWVg.s:431    .bss.M2006_1:00000000 $d
+     /tmp/ccimMWVg.s:438    .bss.M3508_2:00000000 $d
+     /tmp/ccimMWVg.s:445    .bss.M3508_1:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_CAN_ConfigFilter
+HAL_CAN_Start
+HAL_CAN_ActivateNotification
+hcan1
+HAL_CAN_AddTxMessage
+HAL_CAN_GetRxMessage

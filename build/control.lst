@@ -1,0 +1,660 @@
+ARM GAS  /tmp/ccHYnf0r.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "DT7_DR16/control.c"
+  20              		.global	__aeabi_dsub
+  21              		.global	__aeabi_ddiv
+  22              		.global	__aeabi_dmul
+  23              		.global	__aeabi_dadd
+  24              		.section	.text.msp,"ax",%progbits
+  25              		.align	1
+  26              		.global	msp
+  27              		.syntax unified
+  28              		.thumb
+  29              		.thumb_func
+  31              	msp:
+  32              	.LVL0:
+  33              	.LFB130:
+   1:DT7_DR16/control.c **** #include "main.h"
+   2:DT7_DR16/control.c **** #include "control.h"
+   3:DT7_DR16/control.c **** 
+   4:DT7_DR16/control.c **** extern RC_ctrl ctl;
+   5:DT7_DR16/control.c **** extern uint8_t sbus_buf;
+   6:DT7_DR16/control.c **** extern int M3508_1_Speed;
+   7:DT7_DR16/control.c **** extern int M3508_2_Speed;
+   8:DT7_DR16/control.c **** extern int M2006_1_Speed;
+   9:DT7_DR16/control.c **** extern DMA_HandleTypeDef hdma_usart3_rx;
+  10:DT7_DR16/control.c **** extern Filter_RC_ty Filter_RC;
+  11:DT7_DR16/control.c **** 
+  12:DT7_DR16/control.c **** 
+  13:DT7_DR16/control.c **** double msp(double x, double in_min, double in_max, double out_min, double out_max)
+  14:DT7_DR16/control.c **** {
+  34              		.loc 1 14 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 8
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		.loc 1 14 1 is_stmt 0 view .LVU1
+  39 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 36
+  42              		.cfi_offset 4, -36
+  43              		.cfi_offset 5, -32
+  44              		.cfi_offset 6, -28
+ARM GAS  /tmp/ccHYnf0r.s 			page 2
+
+
+  45              		.cfi_offset 7, -24
+  46              		.cfi_offset 8, -20
+  47              		.cfi_offset 9, -16
+  48              		.cfi_offset 10, -12
+  49              		.cfi_offset 11, -8
+  50              		.cfi_offset 14, -4
+  51 0004 83B0     		sub	sp, sp, #12
+  52              	.LCFI1:
+  53              		.cfi_def_cfa_offset 48
+  54 0006 51EC100B 		vmov	r0, r1, d0
+  55 000a 57EC116B 		vmov	r6, r7, d1
+  56 000e 59EC128B 		vmov	r8, r9, d2
+  57 0012 55EC134B 		vmov	r4, r5, d3
+  58 0016 8DED004B 		vstr.64	d4, [sp]
+  15:DT7_DR16/control.c **** 	return out_min+((double)(x-in_min)/(in_max-in_min)*(out_max-out_min));
+  59              		.loc 1 15 2 is_stmt 1 view .LVU2
+  60              		.loc 1 15 18 is_stmt 0 view .LVU3
+  61 001a 3246     		mov	r2, r6
+  62 001c 3B46     		mov	r3, r7
+  63 001e FFF7FEFF 		bl	__aeabi_dsub
+  64              	.LVL1:
+  65              		.loc 1 15 18 view .LVU4
+  66 0022 8246     		mov	r10, r0
+  67 0024 8B46     		mov	fp, r1
+  68              		.loc 1 15 44 view .LVU5
+  69 0026 3246     		mov	r2, r6
+  70 0028 3B46     		mov	r3, r7
+  71 002a 4046     		mov	r0, r8
+  72 002c 4946     		mov	r1, r9
+  73 002e FFF7FEFF 		bl	__aeabi_dsub
+  74              	.LVL2:
+  75 0032 0246     		mov	r2, r0
+  76 0034 0B46     		mov	r3, r1
+  77              		.loc 1 15 36 view .LVU6
+  78 0036 5046     		mov	r0, r10
+  79 0038 5946     		mov	r1, fp
+  80 003a FFF7FEFF 		bl	__aeabi_ddiv
+  81              	.LVL3:
+  82 003e 0646     		mov	r6, r0
+  83              	.LVL4:
+  84              		.loc 1 15 36 view .LVU7
+  85 0040 0F46     		mov	r7, r1
+  86              		.loc 1 15 61 view .LVU8
+  87 0042 2246     		mov	r2, r4
+  88 0044 2B46     		mov	r3, r5
+  89 0046 DDE90001 		ldrd	r0, [sp]
+  90 004a FFF7FEFF 		bl	__aeabi_dsub
+  91              	.LVL5:
+  92 004e 0246     		mov	r2, r0
+  93 0050 0B46     		mov	r3, r1
+  94              		.loc 1 15 52 view .LVU9
+  95 0052 3046     		mov	r0, r6
+  96 0054 3946     		mov	r1, r7
+  97 0056 FFF7FEFF 		bl	__aeabi_dmul
+  98              	.LVL6:
+  99              		.loc 1 15 16 view .LVU10
+ 100 005a 2246     		mov	r2, r4
+ARM GAS  /tmp/ccHYnf0r.s 			page 3
+
+
+ 101 005c 2B46     		mov	r3, r5
+ 102 005e FFF7FEFF 		bl	__aeabi_dadd
+ 103              	.LVL7:
+  16:DT7_DR16/control.c **** }
+ 104              		.loc 1 16 1 view .LVU11
+ 105 0062 41EC100B 		vmov	d0, r0, r1
+ 106 0066 03B0     		add	sp, sp, #12
+ 107              	.LCFI2:
+ 108              		.cfi_def_cfa_offset 36
+ 109              	.LVL8:
+ 110              		.loc 1 16 1 view .LVU12
+ 111              		@ sp needed
+ 112 0068 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 113              		.loc 1 16 1 view .LVU13
+ 114              		.cfi_endproc
+ 115              	.LFE130:
+ 117              		.global	__aeabi_i2d
+ 118              		.section	.text.Filter_DT7_DR16,"ax",%progbits
+ 119              		.align	1
+ 120              		.global	Filter_DT7_DR16
+ 121              		.syntax unified
+ 122              		.thumb
+ 123              		.thumb_func
+ 125              	Filter_DT7_DR16:
+ 126              	.LFB132:
+  17:DT7_DR16/control.c **** 
+  18:DT7_DR16/control.c **** void DR16_Analysis(uint8_t *sbus_buf)
+  19:DT7_DR16/control.c **** {
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0 = (sbus_buf[0] | (sbus_buf[1] << 8)) & 0x07ff; //!< Channel 0
+  21:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1 = ((sbus_buf[1] >> 3) | (sbus_buf[2] << 5)) & 0x07ff; //!< Channel 1
+  23:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+  24:DT7_DR16/control.c **** 	ctl.rc.ch2 = ((sbus_buf[2] >> 6) | (sbus_buf[3] << 2) | //!< Channel 2
+  25:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+  26:DT7_DR16/control.c **** 	ctl.rc.ch2-=1024;
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3 = ((sbus_buf[4] >> 1) | (sbus_buf[5] << 7)) & 0x07ff; //!< Channel 3
+  28:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+  29:DT7_DR16/control.c **** 	ctl.rc.s1 = ((sbus_buf[5] >> 4) & 0x0003); //!< Switch left
+  30:DT7_DR16/control.c **** 	ctl.rc.s2 = ((sbus_buf[5] >> 4) & 0x000C) >> 2; //!< Switch right
+  31:DT7_DR16/control.c **** 	ctl.mouse.x = sbus_buf[6] | (sbus_buf[7] << 8); //!< Mouse X axis
+  32:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+  33:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+  34:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+  35:DT7_DR16/control.c **** 	ctl.mouse.press_r = sbus_buf[13]; //!< Mouse Right Is Press ?
+  36:DT7_DR16/control.c **** 	ctl.key.v = sbus_buf[14] | (sbus_buf[15] << 8); //!< KeyBoard value
+  37:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+  38:DT7_DR16/control.c **** }
+  39:DT7_DR16/control.c **** 
+  40:DT7_DR16/control.c **** void Filter_DT7_DR16()
+  41:DT7_DR16/control.c **** {
+ 127              		.loc 1 41 1 is_stmt 1 view -0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131 0000 38B5     		push	{r3, r4, r5, lr}
+ 132              	.LCFI3:
+ 133              		.cfi_def_cfa_offset 16
+ARM GAS  /tmp/ccHYnf0r.s 			page 4
+
+
+ 134              		.cfi_offset 3, -16
+ 135              		.cfi_offset 4, -12
+ 136              		.cfi_offset 5, -8
+ 137              		.cfi_offset 14, -4
+  42:DT7_DR16/control.c **** 	Filter_RC.Now_Sap_ch0=ctl.rc.ch0;
+ 138              		.loc 1 42 2 view .LVU15
+ 139              		.loc 1 42 30 is_stmt 0 view .LVU16
+ 140 0002 0B4D     		ldr	r5, .L5
+ 141              		.loc 1 42 23 view .LVU17
+ 142 0004 0B4C     		ldr	r4, .L5+4
+ 143 0006 2868     		ldr	r0, [r5]
+ 144 0008 FFF7FEFF 		bl	__aeabi_i2d
+ 145              	.LVL9:
+ 146 000c C4E90801 		strd	r0, [r4, #32]
+  43:DT7_DR16/control.c **** 	Filter_RC.Now_Sap_ch1=ctl.rc.ch1;
+ 147              		.loc 1 43 2 is_stmt 1 view .LVU18
+ 148              		.loc 1 43 23 is_stmt 0 view .LVU19
+ 149 0010 6868     		ldr	r0, [r5, #4]
+ 150 0012 FFF7FEFF 		bl	__aeabi_i2d
+ 151              	.LVL10:
+ 152 0016 C4E90A01 		strd	r0, [r4, #40]
+  44:DT7_DR16/control.c **** 	Filter_RC.Now_Sap_ch2=ctl.rc.ch2;
+ 153              		.loc 1 44 2 is_stmt 1 view .LVU20
+ 154              		.loc 1 44 23 is_stmt 0 view .LVU21
+ 155 001a A868     		ldr	r0, [r5, #8]
+ 156 001c FFF7FEFF 		bl	__aeabi_i2d
+ 157              	.LVL11:
+ 158 0020 C4E90C01 		strd	r0, [r4, #48]
+  45:DT7_DR16/control.c **** 	Filter_RC.Now_Sap_ch3=ctl.rc.ch3;
+ 159              		.loc 1 45 2 is_stmt 1 view .LVU22
+ 160              		.loc 1 45 23 is_stmt 0 view .LVU23
+ 161 0024 E868     		ldr	r0, [r5, #12]
+ 162 0026 FFF7FEFF 		bl	__aeabi_i2d
+ 163              	.LVL12:
+ 164 002a C4E90E01 		strd	r0, [r4, #56]
+  46:DT7_DR16/control.c **** }
+ 165              		.loc 1 46 1 view .LVU24
+ 166 002e 38BD     		pop	{r3, r4, r5, pc}
+ 167              	.L6:
+ 168              		.align	2
+ 169              	.L5:
+ 170 0030 00000000 		.word	ctl
+ 171 0034 00000000 		.word	Filter_RC
+ 172              		.cfi_endproc
+ 173              	.LFE132:
+ 175              		.section	.text.DR16_Analysis,"ax",%progbits
+ 176              		.align	1
+ 177              		.global	DR16_Analysis
+ 178              		.syntax unified
+ 179              		.thumb
+ 180              		.thumb_func
+ 182              	DR16_Analysis:
+ 183              	.LVL13:
+ 184              	.LFB131:
+  19:DT7_DR16/control.c **** 	ctl.rc.ch0 = (sbus_buf[0] | (sbus_buf[1] << 8)) & 0x07ff; //!< Channel 0
+ 185              		.loc 1 19 1 is_stmt 1 view -0
+ 186              		.cfi_startproc
+ARM GAS  /tmp/ccHYnf0r.s 			page 5
+
+
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+  19:DT7_DR16/control.c **** 	ctl.rc.ch0 = (sbus_buf[0] | (sbus_buf[1] << 8)) & 0x07ff; //!< Channel 0
+ 189              		.loc 1 19 1 is_stmt 0 view .LVU26
+ 190 0000 08B5     		push	{r3, lr}
+ 191              	.LCFI4:
+ 192              		.cfi_def_cfa_offset 8
+ 193              		.cfi_offset 3, -8
+ 194              		.cfi_offset 14, -4
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 195              		.loc 1 20 2 is_stmt 1 view .LVU27
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 196              		.loc 1 20 24 is_stmt 0 view .LVU28
+ 197 0002 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 198              		.loc 1 20 39 view .LVU29
+ 199 0004 4378     		ldrb	r3, [r0, #1]	@ zero_extendqisi2
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 200              		.loc 1 20 28 view .LVU30
+ 201 0006 42EA0322 		orr	r2, r2, r3, lsl #8
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 202              		.loc 1 20 50 view .LVU31
+ 203 000a C2F30A02 		ubfx	r2, r2, #0, #11
+  20:DT7_DR16/control.c **** 	ctl.rc.ch0-=1024;
+ 204              		.loc 1 20 13 view .LVU32
+ 205 000e 254B     		ldr	r3, .L9
+ 206 0010 1A60     		str	r2, [r3]
+  21:DT7_DR16/control.c **** 	ctl.rc.ch1 = ((sbus_buf[1] >> 3) | (sbus_buf[2] << 5)) & 0x07ff; //!< Channel 1
+ 207              		.loc 1 21 2 is_stmt 1 view .LVU33
+  21:DT7_DR16/control.c **** 	ctl.rc.ch1 = ((sbus_buf[1] >> 3) | (sbus_buf[2] << 5)) & 0x07ff; //!< Channel 1
+ 208              		.loc 1 21 12 is_stmt 0 view .LVU34
+ 209 0012 A2F58062 		sub	r2, r2, #1024
+ 210 0016 1A60     		str	r2, [r3]
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 211              		.loc 1 22 2 is_stmt 1 view .LVU35
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 212              		.loc 1 22 25 is_stmt 0 view .LVU36
+ 213 0018 4178     		ldrb	r1, [r0, #1]	@ zero_extendqisi2
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 214              		.loc 1 22 46 view .LVU37
+ 215 001a 8278     		ldrb	r2, [r0, #2]	@ zero_extendqisi2
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 216              		.loc 1 22 50 view .LVU38
+ 217 001c 5201     		lsls	r2, r2, #5
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 218              		.loc 1 22 35 view .LVU39
+ 219 001e 42EAD102 		orr	r2, r2, r1, lsr #3
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 220              		.loc 1 22 57 view .LVU40
+ 221 0022 C2F30A02 		ubfx	r2, r2, #0, #11
+  22:DT7_DR16/control.c **** 	ctl.rc.ch1-=1024;
+ 222              		.loc 1 22 13 view .LVU41
+ 223 0026 5A60     		str	r2, [r3, #4]
+  23:DT7_DR16/control.c **** 	ctl.rc.ch2 = ((sbus_buf[2] >> 6) | (sbus_buf[3] << 2) | //!< Channel 2
+ 224              		.loc 1 23 2 is_stmt 1 view .LVU42
+  23:DT7_DR16/control.c **** 	ctl.rc.ch2 = ((sbus_buf[2] >> 6) | (sbus_buf[3] << 2) | //!< Channel 2
+ 225              		.loc 1 23 12 is_stmt 0 view .LVU43
+ARM GAS  /tmp/ccHYnf0r.s 			page 6
+
+
+ 226 0028 A2F58062 		sub	r2, r2, #1024
+ 227 002c 5A60     		str	r2, [r3, #4]
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 228              		.loc 1 24 2 is_stmt 1 view .LVU44
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 229              		.loc 1 24 25 is_stmt 0 view .LVU45
+ 230 002e 8178     		ldrb	r1, [r0, #2]	@ zero_extendqisi2
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 231              		.loc 1 24 46 view .LVU46
+ 232 0030 C278     		ldrb	r2, [r0, #3]	@ zero_extendqisi2
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 233              		.loc 1 24 50 view .LVU47
+ 234 0032 9200     		lsls	r2, r2, #2
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 235              		.loc 1 24 35 view .LVU48
+ 236 0034 42EA9112 		orr	r2, r2, r1, lsr #6
+  25:DT7_DR16/control.c **** 	ctl.rc.ch2-=1024;
+ 237              		.loc 1 25 11 view .LVU49
+ 238 0038 0179     		ldrb	r1, [r0, #4]	@ zero_extendqisi2
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 239              		.loc 1 24 56 view .LVU50
+ 240 003a 42EA8122 		orr	r2, r2, r1, lsl #10
+  25:DT7_DR16/control.c **** 	ctl.rc.ch2-=1024;
+ 241              		.loc 1 25 23 view .LVU51
+ 242 003e C2F30A02 		ubfx	r2, r2, #0, #11
+  24:DT7_DR16/control.c **** 	(sbus_buf[4] << 10)) &0x07ff;
+ 243              		.loc 1 24 13 view .LVU52
+ 244 0042 9A60     		str	r2, [r3, #8]
+  26:DT7_DR16/control.c **** 	ctl.rc.ch3 = ((sbus_buf[4] >> 1) | (sbus_buf[5] << 7)) & 0x07ff; //!< Channel 3
+ 245              		.loc 1 26 2 is_stmt 1 view .LVU53
+  26:DT7_DR16/control.c **** 	ctl.rc.ch3 = ((sbus_buf[4] >> 1) | (sbus_buf[5] << 7)) & 0x07ff; //!< Channel 3
+ 246              		.loc 1 26 12 is_stmt 0 view .LVU54
+ 247 0044 A2F58062 		sub	r2, r2, #1024
+ 248 0048 9A60     		str	r2, [r3, #8]
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 249              		.loc 1 27 2 is_stmt 1 view .LVU55
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 250              		.loc 1 27 25 is_stmt 0 view .LVU56
+ 251 004a 0179     		ldrb	r1, [r0, #4]	@ zero_extendqisi2
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 252              		.loc 1 27 46 view .LVU57
+ 253 004c 4279     		ldrb	r2, [r0, #5]	@ zero_extendqisi2
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 254              		.loc 1 27 50 view .LVU58
+ 255 004e D201     		lsls	r2, r2, #7
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 256              		.loc 1 27 35 view .LVU59
+ 257 0050 42EA5102 		orr	r2, r2, r1, lsr #1
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 258              		.loc 1 27 57 view .LVU60
+ 259 0054 C2F30A02 		ubfx	r2, r2, #0, #11
+  27:DT7_DR16/control.c **** 	ctl.rc.ch3-=1024;
+ 260              		.loc 1 27 13 view .LVU61
+ 261 0058 DA60     		str	r2, [r3, #12]
+  28:DT7_DR16/control.c **** 	ctl.rc.s1 = ((sbus_buf[5] >> 4) & 0x0003); //!< Switch left
+ 262              		.loc 1 28 2 is_stmt 1 view .LVU62
+  28:DT7_DR16/control.c **** 	ctl.rc.s1 = ((sbus_buf[5] >> 4) & 0x0003); //!< Switch left
+ARM GAS  /tmp/ccHYnf0r.s 			page 7
+
+
+ 263              		.loc 1 28 12 is_stmt 0 view .LVU63
+ 264 005a A2F58062 		sub	r2, r2, #1024
+ 265 005e DA60     		str	r2, [r3, #12]
+  29:DT7_DR16/control.c **** 	ctl.rc.s2 = ((sbus_buf[5] >> 4) & 0x000C) >> 2; //!< Switch right
+ 266              		.loc 1 29 2 is_stmt 1 view .LVU64
+  29:DT7_DR16/control.c **** 	ctl.rc.s2 = ((sbus_buf[5] >> 4) & 0x000C) >> 2; //!< Switch right
+ 267              		.loc 1 29 24 is_stmt 0 view .LVU65
+ 268 0060 4279     		ldrb	r2, [r0, #5]	@ zero_extendqisi2
+  29:DT7_DR16/control.c **** 	ctl.rc.s2 = ((sbus_buf[5] >> 4) & 0x000C) >> 2; //!< Switch right
+ 269              		.loc 1 29 34 view .LVU66
+ 270 0062 C2F30112 		ubfx	r2, r2, #4, #2
+  29:DT7_DR16/control.c **** 	ctl.rc.s2 = ((sbus_buf[5] >> 4) & 0x000C) >> 2; //!< Switch right
+ 271              		.loc 1 29 12 view .LVU67
+ 272 0066 1A75     		strb	r2, [r3, #20]
+  30:DT7_DR16/control.c **** 	ctl.mouse.x = sbus_buf[6] | (sbus_buf[7] << 8); //!< Mouse X axis
+ 273              		.loc 1 30 2 is_stmt 1 view .LVU68
+  30:DT7_DR16/control.c **** 	ctl.mouse.x = sbus_buf[6] | (sbus_buf[7] << 8); //!< Mouse X axis
+ 274              		.loc 1 30 24 is_stmt 0 view .LVU69
+ 275 0068 4279     		ldrb	r2, [r0, #5]	@ zero_extendqisi2
+  30:DT7_DR16/control.c **** 	ctl.mouse.x = sbus_buf[6] | (sbus_buf[7] << 8); //!< Mouse X axis
+ 276              		.loc 1 30 44 view .LVU70
+ 277 006a 9209     		lsrs	r2, r2, #6
+  30:DT7_DR16/control.c **** 	ctl.mouse.x = sbus_buf[6] | (sbus_buf[7] << 8); //!< Mouse X axis
+ 278              		.loc 1 30 12 view .LVU71
+ 279 006c 5A75     		strb	r2, [r3, #21]
+  31:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+ 280              		.loc 1 31 2 is_stmt 1 view .LVU72
+  31:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+ 281              		.loc 1 31 24 is_stmt 0 view .LVU73
+ 282 006e 8279     		ldrb	r2, [r0, #6]	@ zero_extendqisi2
+  31:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+ 283              		.loc 1 31 39 view .LVU74
+ 284 0070 C179     		ldrb	r1, [r0, #7]	@ zero_extendqisi2
+  31:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+ 285              		.loc 1 31 28 view .LVU75
+ 286 0072 42EA0122 		orr	r2, r2, r1, lsl #8
+  31:DT7_DR16/control.c **** 	ctl.mouse.y = sbus_buf[8] | (sbus_buf[9] << 8); //!< Mouse Y axis
+ 287              		.loc 1 31 14 view .LVU76
+ 288 0076 1A83     		strh	r2, [r3, #24]	@ movhi
+  32:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+ 289              		.loc 1 32 2 is_stmt 1 view .LVU77
+  32:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+ 290              		.loc 1 32 24 is_stmt 0 view .LVU78
+ 291 0078 027A     		ldrb	r2, [r0, #8]	@ zero_extendqisi2
+  32:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+ 292              		.loc 1 32 39 view .LVU79
+ 293 007a 417A     		ldrb	r1, [r0, #9]	@ zero_extendqisi2
+  32:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+ 294              		.loc 1 32 28 view .LVU80
+ 295 007c 42EA0122 		orr	r2, r2, r1, lsl #8
+  32:DT7_DR16/control.c **** 	ctl.mouse.z = sbus_buf[10] | (sbus_buf[11] << 8); //!< Mouse Z axis
+ 296              		.loc 1 32 14 view .LVU81
+ 297 0080 5A83     		strh	r2, [r3, #26]	@ movhi
+  33:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+ 298              		.loc 1 33 2 is_stmt 1 view .LVU82
+  33:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+ 299              		.loc 1 33 24 is_stmt 0 view .LVU83
+ARM GAS  /tmp/ccHYnf0r.s 			page 8
+
+
+ 300 0082 827A     		ldrb	r2, [r0, #10]	@ zero_extendqisi2
+  33:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+ 301              		.loc 1 33 40 view .LVU84
+ 302 0084 C17A     		ldrb	r1, [r0, #11]	@ zero_extendqisi2
+  33:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+ 303              		.loc 1 33 29 view .LVU85
+ 304 0086 42EA0122 		orr	r2, r2, r1, lsl #8
+  33:DT7_DR16/control.c **** 	ctl.mouse.press_l = sbus_buf[12]; //!< Mouse Left Is Press ?
+ 305              		.loc 1 33 14 view .LVU86
+ 306 008a 9A83     		strh	r2, [r3, #28]	@ movhi
+  34:DT7_DR16/control.c **** 	ctl.mouse.press_r = sbus_buf[13]; //!< Mouse Right Is Press ?
+ 307              		.loc 1 34 2 is_stmt 1 view .LVU87
+  34:DT7_DR16/control.c **** 	ctl.mouse.press_r = sbus_buf[13]; //!< Mouse Right Is Press ?
+ 308              		.loc 1 34 20 is_stmt 0 view .LVU88
+ 309 008c 027B     		ldrb	r2, [r0, #12]	@ zero_extendqisi2
+ 310 008e 9A77     		strb	r2, [r3, #30]
+  35:DT7_DR16/control.c **** 	ctl.key.v = sbus_buf[14] | (sbus_buf[15] << 8); //!< KeyBoard value
+ 311              		.loc 1 35 2 is_stmt 1 view .LVU89
+  35:DT7_DR16/control.c **** 	ctl.key.v = sbus_buf[14] | (sbus_buf[15] << 8); //!< KeyBoard value
+ 312              		.loc 1 35 20 is_stmt 0 view .LVU90
+ 313 0090 427B     		ldrb	r2, [r0, #13]	@ zero_extendqisi2
+ 314 0092 DA77     		strb	r2, [r3, #31]
+  36:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+ 315              		.loc 1 36 2 is_stmt 1 view .LVU91
+  36:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+ 316              		.loc 1 36 22 is_stmt 0 view .LVU92
+ 317 0094 827B     		ldrb	r2, [r0, #14]	@ zero_extendqisi2
+  36:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+ 318              		.loc 1 36 38 view .LVU93
+ 319 0096 C17B     		ldrb	r1, [r0, #15]	@ zero_extendqisi2
+  36:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+ 320              		.loc 1 36 27 view .LVU94
+ 321 0098 42EA0122 		orr	r2, r2, r1, lsl #8
+  36:DT7_DR16/control.c **** 	Filter_DT7_DR16();
+ 322              		.loc 1 36 12 view .LVU95
+ 323 009c 1A84     		strh	r2, [r3, #32]	@ movhi
+  37:DT7_DR16/control.c **** }
+ 324              		.loc 1 37 2 is_stmt 1 view .LVU96
+ 325 009e FFF7FEFF 		bl	Filter_DT7_DR16
+ 326              	.LVL14:
+  38:DT7_DR16/control.c **** 
+ 327              		.loc 1 38 1 is_stmt 0 view .LVU97
+ 328 00a2 08BD     		pop	{r3, pc}
+ 329              	.L10:
+ 330              		.align	2
+ 331              	.L9:
+ 332 00a4 00000000 		.word	ctl
+ 333              		.cfi_endproc
+ 334              	.LFE131:
+ 336              		.section	.text.LIMIT_Speed_M3508,"ax",%progbits
+ 337              		.align	1
+ 338              		.global	LIMIT_Speed_M3508
+ 339              		.syntax unified
+ 340              		.thumb
+ 341              		.thumb_func
+ 343              	LIMIT_Speed_M3508:
+ 344              	.LFB133:
+ARM GAS  /tmp/ccHYnf0r.s 			page 9
+
+
+  47:DT7_DR16/control.c **** 
+  48:DT7_DR16/control.c **** void LIMIT_Speed_M3508()
+  49:DT7_DR16/control.c **** {
+ 345              		.loc 1 49 1 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349              		@ link register save eliminated.
+  50:DT7_DR16/control.c **** 	if(M3508_1_Speed>3000) M3508_1_Speed=3000;
+ 350              		.loc 1 50 2 view .LVU99
+ 351              		.loc 1 50 18 is_stmt 0 view .LVU100
+ 352 0000 124B     		ldr	r3, .L16
+ 353 0002 1A68     		ldr	r2, [r3]
+ 354              		.loc 1 50 4 view .LVU101
+ 355 0004 40F6B833 		movw	r3, #3000
+ 356 0008 9A42     		cmp	r2, r3
+ 357 000a 03DD     		ble	.L12
+ 358              		.loc 1 50 25 is_stmt 1 discriminator 1 view .LVU102
+ 359              		.loc 1 50 38 is_stmt 0 discriminator 1 view .LVU103
+ 360 000c 0F4B     		ldr	r3, .L16
+ 361 000e 40F6B832 		movw	r2, #3000
+ 362 0012 1A60     		str	r2, [r3]
+ 363              	.L12:
+  51:DT7_DR16/control.c **** 	if(M3508_1_Speed<-3000) M3508_1_Speed=-3000;
+ 364              		.loc 1 51 2 is_stmt 1 view .LVU104
+ 365              		.loc 1 51 18 is_stmt 0 view .LVU105
+ 366 0014 0D4B     		ldr	r3, .L16
+ 367 0016 1A68     		ldr	r2, [r3]
+ 368              		.loc 1 51 4 view .LVU106
+ 369 0018 0D4B     		ldr	r3, .L16+4
+ 370 001a 9A42     		cmp	r2, r3
+ 371 001c 02DA     		bge	.L13
+ 372              		.loc 1 51 26 is_stmt 1 discriminator 1 view .LVU107
+ 373              		.loc 1 51 39 is_stmt 0 discriminator 1 view .LVU108
+ 374 001e 0B4B     		ldr	r3, .L16
+ 375 0020 0B4A     		ldr	r2, .L16+4
+ 376 0022 1A60     		str	r2, [r3]
+ 377              	.L13:
+  52:DT7_DR16/control.c **** 	if(M3508_2_Speed>3000) M3508_2_Speed=3000;
+ 378              		.loc 1 52 2 is_stmt 1 view .LVU109
+ 379              		.loc 1 52 18 is_stmt 0 view .LVU110
+ 380 0024 0B4B     		ldr	r3, .L16+8
+ 381 0026 1A68     		ldr	r2, [r3]
+ 382              		.loc 1 52 4 view .LVU111
+ 383 0028 40F6B833 		movw	r3, #3000
+ 384 002c 9A42     		cmp	r2, r3
+ 385 002e 03DD     		ble	.L14
+ 386              		.loc 1 52 25 is_stmt 1 discriminator 1 view .LVU112
+ 387              		.loc 1 52 38 is_stmt 0 discriminator 1 view .LVU113
+ 388 0030 084B     		ldr	r3, .L16+8
+ 389 0032 40F6B832 		movw	r2, #3000
+ 390 0036 1A60     		str	r2, [r3]
+ 391              	.L14:
+  53:DT7_DR16/control.c **** 	if(M3508_2_Speed<-3000) M3508_2_Speed=-3000;
+ 392              		.loc 1 53 2 is_stmt 1 view .LVU114
+ 393              		.loc 1 53 18 is_stmt 0 view .LVU115
+ 394 0038 064B     		ldr	r3, .L16+8
+ARM GAS  /tmp/ccHYnf0r.s 			page 10
+
+
+ 395 003a 1A68     		ldr	r2, [r3]
+ 396              		.loc 1 53 4 view .LVU116
+ 397 003c 044B     		ldr	r3, .L16+4
+ 398 003e 9A42     		cmp	r2, r3
+ 399 0040 02DA     		bge	.L11
+ 400              		.loc 1 53 26 is_stmt 1 discriminator 1 view .LVU117
+ 401              		.loc 1 53 39 is_stmt 0 discriminator 1 view .LVU118
+ 402 0042 044B     		ldr	r3, .L16+8
+ 403 0044 024A     		ldr	r2, .L16+4
+ 404 0046 1A60     		str	r2, [r3]
+ 405              	.L11:
+  54:DT7_DR16/control.c **** }
+ 406              		.loc 1 54 1 view .LVU119
+ 407 0048 7047     		bx	lr
+ 408              	.L17:
+ 409 004a 00BF     		.align	2
+ 410              	.L16:
+ 411 004c 00000000 		.word	M3508_1_Speed
+ 412 0050 48F4FFFF 		.word	-3000
+ 413 0054 00000000 		.word	M3508_2_Speed
+ 414              		.cfi_endproc
+ 415              	.LFE133:
+ 417              		.section	.text.LIMIT_Speed_M2006,"ax",%progbits
+ 418              		.align	1
+ 419              		.global	LIMIT_Speed_M2006
+ 420              		.syntax unified
+ 421              		.thumb
+ 422              		.thumb_func
+ 424              	LIMIT_Speed_M2006:
+ 425              	.LFB134:
+  55:DT7_DR16/control.c **** 
+  56:DT7_DR16/control.c **** void LIMIT_Speed_M2006()
+  57:DT7_DR16/control.c **** {
+ 426              		.loc 1 57 1 is_stmt 1 view -0
+ 427              		.cfi_startproc
+ 428              		@ args = 0, pretend = 0, frame = 0
+ 429              		@ frame_needed = 0, uses_anonymous_args = 0
+ 430              		@ link register save eliminated.
+  58:DT7_DR16/control.c **** 	if(M2006_1_Speed>15000) M2006_1_Speed=15000;
+ 431              		.loc 1 58 2 view .LVU121
+ 432              		.loc 1 58 18 is_stmt 0 view .LVU122
+ 433 0000 094B     		ldr	r3, .L21
+ 434 0002 1A68     		ldr	r2, [r3]
+ 435              		.loc 1 58 4 view .LVU123
+ 436 0004 43F69823 		movw	r3, #15000
+ 437 0008 9A42     		cmp	r2, r3
+ 438 000a 03DD     		ble	.L19
+ 439              		.loc 1 58 26 is_stmt 1 discriminator 1 view .LVU124
+ 440              		.loc 1 58 39 is_stmt 0 discriminator 1 view .LVU125
+ 441 000c 064B     		ldr	r3, .L21
+ 442 000e 43F69822 		movw	r2, #15000
+ 443 0012 1A60     		str	r2, [r3]
+ 444              	.L19:
+  59:DT7_DR16/control.c **** 	if(M2006_1_Speed<-15000) M2006_1_Speed=-15000;
+ 445              		.loc 1 59 2 is_stmt 1 view .LVU126
+ 446              		.loc 1 59 18 is_stmt 0 view .LVU127
+ 447 0014 044B     		ldr	r3, .L21
+ARM GAS  /tmp/ccHYnf0r.s 			page 11
+
+
+ 448 0016 1A68     		ldr	r2, [r3]
+ 449              		.loc 1 59 4 view .LVU128
+ 450 0018 044B     		ldr	r3, .L21+4
+ 451 001a 9A42     		cmp	r2, r3
+ 452 001c 02DA     		bge	.L18
+ 453              		.loc 1 59 27 is_stmt 1 discriminator 1 view .LVU129
+ 454              		.loc 1 59 40 is_stmt 0 discriminator 1 view .LVU130
+ 455 001e 024B     		ldr	r3, .L21
+ 456 0020 024A     		ldr	r2, .L21+4
+ 457 0022 1A60     		str	r2, [r3]
+ 458              	.L18:
+  60:DT7_DR16/control.c **** }
+ 459              		.loc 1 60 1 view .LVU131
+ 460 0024 7047     		bx	lr
+ 461              	.L22:
+ 462 0026 00BF     		.align	2
+ 463              	.L21:
+ 464 0028 00000000 		.word	M2006_1_Speed
+ 465 002c 68C5FFFF 		.word	-15000
+ 466              		.cfi_endproc
+ 467              	.LFE134:
+ 469              		.text
+ 470              	.Letext0:
+ 471              		.file 2 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 472              		.file 3 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 473              		.file 4 "DT7_DR16/control.h"
+ARM GAS  /tmp/ccHYnf0r.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 control.c
+     /tmp/ccHYnf0r.s:25     .text.msp:00000000 $t
+     /tmp/ccHYnf0r.s:31     .text.msp:00000000 msp
+     /tmp/ccHYnf0r.s:119    .text.Filter_DT7_DR16:00000000 $t
+     /tmp/ccHYnf0r.s:125    .text.Filter_DT7_DR16:00000000 Filter_DT7_DR16
+     /tmp/ccHYnf0r.s:170    .text.Filter_DT7_DR16:00000030 $d
+     /tmp/ccHYnf0r.s:176    .text.DR16_Analysis:00000000 $t
+     /tmp/ccHYnf0r.s:182    .text.DR16_Analysis:00000000 DR16_Analysis
+     /tmp/ccHYnf0r.s:332    .text.DR16_Analysis:000000a4 $d
+     /tmp/ccHYnf0r.s:337    .text.LIMIT_Speed_M3508:00000000 $t
+     /tmp/ccHYnf0r.s:343    .text.LIMIT_Speed_M3508:00000000 LIMIT_Speed_M3508
+     /tmp/ccHYnf0r.s:411    .text.LIMIT_Speed_M3508:0000004c $d
+     /tmp/ccHYnf0r.s:418    .text.LIMIT_Speed_M2006:00000000 $t
+     /tmp/ccHYnf0r.s:424    .text.LIMIT_Speed_M2006:00000000 LIMIT_Speed_M2006
+     /tmp/ccHYnf0r.s:464    .text.LIMIT_Speed_M2006:00000028 $d
+
+UNDEFINED SYMBOLS
+__aeabi_dsub
+__aeabi_ddiv
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_i2d
+ctl
+Filter_RC
+M3508_1_Speed
+M3508_2_Speed
+M2006_1_Speed

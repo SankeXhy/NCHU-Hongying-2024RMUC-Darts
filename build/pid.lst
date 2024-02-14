@@ -1,0 +1,479 @@
+ARM GAS  /tmp/ccICASIq.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"pid.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "My_pid/pid.c"
+  20              		.section	.text.pid_init,"ax",%progbits
+  21              		.align	1
+  22              		.global	pid_init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	pid_init:
+  28              	.LVL0:
+  29              	.LFB130:
+   1:My_pid/pid.c  **** #include "pid.h"
+   2:My_pid/pid.c  **** 
+   3:My_pid/pid.c  **** pid_struct_t M3508_2_PID_S;
+   4:My_pid/pid.c  **** pid_struct_t M3508_1_PID_S;
+   5:My_pid/pid.c  **** pid_struct_t M3508_1_PID_P;
+   6:My_pid/pid.c  **** pid_struct_t M3508_2_PID_P;
+   7:My_pid/pid.c  **** pid_struct_t M2006_1_PID_S;
+   8:My_pid/pid.c  **** 
+   9:My_pid/pid.c  **** void pid_init(pid_struct_t *pid,float kp,float ki,float kd,float i_max,float out_max)
+  10:My_pid/pid.c  **** {
+  30              		.loc 1 10 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  11:My_pid/pid.c  ****   pid->kp      = kp;
+  35              		.loc 1 11 3 view .LVU1
+  36              		.loc 1 11 16 is_stmt 0 view .LVU2
+  37 0000 80ED000A 		vstr.32	s0, [r0]
+  12:My_pid/pid.c  ****   pid->ki      = ki;
+  38              		.loc 1 12 3 is_stmt 1 view .LVU3
+  39              		.loc 1 12 16 is_stmt 0 view .LVU4
+  40 0004 C0ED010A 		vstr.32	s1, [r0, #4]
+  13:My_pid/pid.c  ****   pid->kd      = kd;
+  41              		.loc 1 13 3 is_stmt 1 view .LVU5
+  42              		.loc 1 13 16 is_stmt 0 view .LVU6
+  43 0008 80ED021A 		vstr.32	s2, [r0, #8]
+  14:My_pid/pid.c  ****   pid->i_max   = i_max;
+  44              		.loc 1 14 3 is_stmt 1 view .LVU7
+ARM GAS  /tmp/ccICASIq.s 			page 2
+
+
+  45              		.loc 1 14 16 is_stmt 0 view .LVU8
+  46 000c C0ED031A 		vstr.32	s3, [r0, #12]
+  15:My_pid/pid.c  ****   pid->out_max = out_max;
+  47              		.loc 1 15 3 is_stmt 1 view .LVU9
+  48              		.loc 1 15 16 is_stmt 0 view .LVU10
+  49 0010 80ED042A 		vstr.32	s4, [r0, #16]
+  16:My_pid/pid.c  **** }
+  50              		.loc 1 16 1 view .LVU11
+  51 0014 7047     		bx	lr
+  52              		.cfi_endproc
+  53              	.LFE130:
+  55              		.section	.text.LIMIT_MIN_MAX,"ax",%progbits
+  56              		.align	1
+  57              		.global	LIMIT_MIN_MAX
+  58              		.syntax unified
+  59              		.thumb
+  60              		.thumb_func
+  62              	LIMIT_MIN_MAX:
+  63              	.LVL1:
+  64              	.LFB132:
+  17:My_pid/pid.c  **** 
+  18:My_pid/pid.c  **** 
+  19:My_pid/pid.c  **** float pid_calc(pid_struct_t *pid, float ref, float fdb)
+  20:My_pid/pid.c  **** {
+  21:My_pid/pid.c  ****   pid->ref = ref;
+  22:My_pid/pid.c  ****   pid->fdb = fdb;
+  23:My_pid/pid.c  ****   pid->err[1] = pid->err[0];
+  24:My_pid/pid.c  ****   pid->err[0] = pid->ref - pid->fdb;
+  25:My_pid/pid.c  **** 
+  26:My_pid/pid.c  ****   pid->p_out  = pid->kp * pid->err[0];
+  27:My_pid/pid.c  ****   pid->i_out += pid->ki * pid->err[0];
+  28:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+  29:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+  30:My_pid/pid.c  **** 
+  31:My_pid/pid.c  ****   pid->output = pid->p_out + pid->i_out + pid->d_out;
+  32:My_pid/pid.c  ****   pid->output=LIMIT_MIN_MAX(pid->output, -pid->out_max, pid->out_max);
+  33:My_pid/pid.c  ****   return pid->output;
+  34:My_pid/pid.c  **** }
+  35:My_pid/pid.c  **** 
+  36:My_pid/pid.c  **** float LIMIT_MIN_MAX(float in,float min,float max)
+  37:My_pid/pid.c  **** {
+  65              		.loc 1 37 1 is_stmt 1 view -0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
+  70              		.loc 1 37 1 is_stmt 0 view .LVU13
+  71 0000 F0EE407A 		vmov.f32	s15, s0
+  72 0004 B0EE600A 		vmov.f32	s0, s1
+  73              	.LVL2:
+  38:My_pid/pid.c  **** 	if(in<=min)
+  74              		.loc 1 38 2 is_stmt 1 view .LVU14
+  75              		.loc 1 38 4 is_stmt 0 view .LVU15
+  76 0008 F4EEE07A 		vcmpe.f32	s15, s1
+  77 000c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  78 0010 09D9     		bls	.L3
+  39:My_pid/pid.c  **** 	{
+ARM GAS  /tmp/ccICASIq.s 			page 3
+
+
+  40:My_pid/pid.c  **** 		in=min;
+  41:My_pid/pid.c  **** 	}
+  42:My_pid/pid.c  **** 	else if(in>=max)
+  79              		.loc 1 42 7 is_stmt 1 view .LVU16
+  80              		.loc 1 42 9 is_stmt 0 view .LVU17
+  81 0012 F4EEC17A 		vcmpe.f32	s15, s2
+  82 0016 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  83 001a 02DA     		bge	.L4
+  84 001c B0EE670A 		vmov.f32	s0, s15
+  85 0020 7047     		bx	lr
+  86              	.LVL3:
+  87              	.L4:
+  43:My_pid/pid.c  **** 	{
+  44:My_pid/pid.c  **** 		in=max;
+  88              		.loc 1 44 5 view .LVU18
+  89 0022 B0EE410A 		vmov.f32	s0, s2
+  90              	.LVL4:
+  91              	.L3:
+  45:My_pid/pid.c  **** 	}
+  46:My_pid/pid.c  **** 	return in;
+  92              		.loc 1 46 2 is_stmt 1 view .LVU19
+  47:My_pid/pid.c  **** }
+  93              		.loc 1 47 1 is_stmt 0 view .LVU20
+  94 0026 7047     		bx	lr
+  95              		.cfi_endproc
+  96              	.LFE132:
+  98              		.section	.text.pid_calc,"ax",%progbits
+  99              		.align	1
+ 100              		.global	pid_calc
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	pid_calc:
+ 106              	.LVL5:
+ 107              	.LFB131:
+  20:My_pid/pid.c  ****   pid->ref = ref;
+ 108              		.loc 1 20 1 is_stmt 1 view -0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+  20:My_pid/pid.c  ****   pid->ref = ref;
+ 112              		.loc 1 20 1 is_stmt 0 view .LVU22
+ 113 0000 10B5     		push	{r4, lr}
+ 114              	.LCFI0:
+ 115              		.cfi_def_cfa_offset 8
+ 116              		.cfi_offset 4, -8
+ 117              		.cfi_offset 14, -4
+ 118 0002 2DED028B 		vpush.64	{d8}
+ 119              	.LCFI1:
+ 120              		.cfi_def_cfa_offset 16
+ 121              		.cfi_offset 80, -16
+ 122              		.cfi_offset 81, -12
+ 123 0006 0446     		mov	r4, r0
+  21:My_pid/pid.c  ****   pid->fdb = fdb;
+ 124              		.loc 1 21 3 is_stmt 1 view .LVU23
+  21:My_pid/pid.c  ****   pid->fdb = fdb;
+ 125              		.loc 1 21 12 is_stmt 0 view .LVU24
+ARM GAS  /tmp/ccICASIq.s 			page 4
+
+
+ 126 0008 80ED050A 		vstr.32	s0, [r0, #20]
+  22:My_pid/pid.c  ****   pid->err[1] = pid->err[0];
+ 127              		.loc 1 22 3 is_stmt 1 view .LVU25
+  22:My_pid/pid.c  ****   pid->err[1] = pid->err[0];
+ 128              		.loc 1 22 12 is_stmt 0 view .LVU26
+ 129 000c C0ED060A 		vstr.32	s1, [r0, #24]
+  23:My_pid/pid.c  ****   pid->err[0] = pid->ref - pid->fdb;
+ 130              		.loc 1 23 3 is_stmt 1 view .LVU27
+  23:My_pid/pid.c  ****   pid->err[0] = pid->ref - pid->fdb;
+ 131              		.loc 1 23 25 is_stmt 0 view .LVU28
+ 132 0010 90ED077A 		vldr.32	s14, [r0, #28]
+  23:My_pid/pid.c  ****   pid->err[0] = pid->ref - pid->fdb;
+ 133              		.loc 1 23 15 view .LVU29
+ 134 0014 80ED087A 		vstr.32	s14, [r0, #32]
+  24:My_pid/pid.c  **** 
+ 135              		.loc 1 24 3 is_stmt 1 view .LVU30
+  24:My_pid/pid.c  **** 
+ 136              		.loc 1 24 26 is_stmt 0 view .LVU31
+ 137 0018 70EE600A 		vsub.f32	s1, s0, s1
+ 138              	.LVL6:
+  24:My_pid/pid.c  **** 
+ 139              		.loc 1 24 15 view .LVU32
+ 140 001c C0ED070A 		vstr.32	s1, [r0, #28]
+  26:My_pid/pid.c  ****   pid->i_out += pid->ki * pid->err[0];
+ 141              		.loc 1 26 3 is_stmt 1 view .LVU33
+  26:My_pid/pid.c  ****   pid->i_out += pid->ki * pid->err[0];
+ 142              		.loc 1 26 20 is_stmt 0 view .LVU34
+ 143 0020 D0ED008A 		vldr.32	s17, [r0]
+  26:My_pid/pid.c  ****   pid->i_out += pid->ki * pid->err[0];
+ 144              		.loc 1 26 25 view .LVU35
+ 145 0024 60EEA88A 		vmul.f32	s17, s1, s17
+  26:My_pid/pid.c  ****   pid->i_out += pid->ki * pid->err[0];
+ 146              		.loc 1 26 15 view .LVU36
+ 147 0028 C0ED098A 		vstr.32	s17, [r0, #36]
+  27:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+ 148              		.loc 1 27 3 is_stmt 1 view .LVU37
+  27:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+ 149              		.loc 1 27 6 is_stmt 0 view .LVU38
+ 150 002c 90ED0A0A 		vldr.32	s0, [r0, #40]
+ 151              	.LVL7:
+  27:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+ 152              		.loc 1 27 20 view .LVU39
+ 153 0030 D0ED017A 		vldr.32	s15, [r0, #4]
+  27:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+ 154              		.loc 1 27 25 view .LVU40
+ 155 0034 60EEA77A 		vmul.f32	s15, s1, s15
+  27:My_pid/pid.c  ****   pid->d_out  = pid->kd * (pid->err[0] - pid->err[1]);
+ 156              		.loc 1 27 14 view .LVU41
+ 157 0038 30EE270A 		vadd.f32	s0, s0, s15
+ 158 003c 80ED0A0A 		vstr.32	s0, [r0, #40]
+  28:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+ 159              		.loc 1 28 3 is_stmt 1 view .LVU42
+  28:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+ 160              		.loc 1 28 20 is_stmt 0 view .LVU43
+ 161 0040 90ED028A 		vldr.32	s16, [r0, #8]
+  28:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+ 162              		.loc 1 28 40 view .LVU44
+ARM GAS  /tmp/ccICASIq.s 			page 5
+
+
+ 163 0044 70EEC70A 		vsub.f32	s1, s1, s14
+  28:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+ 164              		.loc 1 28 25 view .LVU45
+ 165 0048 28EE208A 		vmul.f32	s16, s16, s1
+  28:My_pid/pid.c  ****   pid->i_out=LIMIT_MIN_MAX(pid->i_out, -pid->i_max, pid->i_max);
+ 166              		.loc 1 28 15 view .LVU46
+ 167 004c 80ED0B8A 		vstr.32	s16, [r0, #44]
+  29:My_pid/pid.c  **** 
+ 168              		.loc 1 29 3 is_stmt 1 view .LVU47
+  29:My_pid/pid.c  **** 
+ 169              		.loc 1 29 44 is_stmt 0 view .LVU48
+ 170 0050 90ED031A 		vldr.32	s2, [r0, #12]
+  29:My_pid/pid.c  **** 
+ 171              		.loc 1 29 14 view .LVU49
+ 172 0054 F1EE410A 		vneg.f32	s1, s2
+ 173 0058 FFF7FEFF 		bl	LIMIT_MIN_MAX
+ 174              	.LVL8:
+  29:My_pid/pid.c  **** 
+ 175              		.loc 1 29 13 discriminator 1 view .LVU50
+ 176 005c 84ED0A0A 		vstr.32	s0, [r4, #40]
+  31:My_pid/pid.c  ****   pid->output=LIMIT_MIN_MAX(pid->output, -pid->out_max, pid->out_max);
+ 177              		.loc 1 31 3 is_stmt 1 view .LVU51
+  31:My_pid/pid.c  ****   pid->output=LIMIT_MIN_MAX(pid->output, -pid->out_max, pid->out_max);
+ 178              		.loc 1 31 28 is_stmt 0 view .LVU52
+ 179 0060 78EE808A 		vadd.f32	s17, s17, s0
+  31:My_pid/pid.c  ****   pid->output=LIMIT_MIN_MAX(pid->output, -pid->out_max, pid->out_max);
+ 180              		.loc 1 31 41 view .LVU53
+ 181 0064 38EE280A 		vadd.f32	s0, s16, s17
+  31:My_pid/pid.c  ****   pid->output=LIMIT_MIN_MAX(pid->output, -pid->out_max, pid->out_max);
+ 182              		.loc 1 31 15 view .LVU54
+ 183 0068 84ED0C0A 		vstr.32	s0, [r4, #48]
+  32:My_pid/pid.c  ****   return pid->output;
+ 184              		.loc 1 32 3 is_stmt 1 view .LVU55
+  32:My_pid/pid.c  ****   return pid->output;
+ 185              		.loc 1 32 46 is_stmt 0 view .LVU56
+ 186 006c 94ED041A 		vldr.32	s2, [r4, #16]
+  32:My_pid/pid.c  ****   return pid->output;
+ 187              		.loc 1 32 15 view .LVU57
+ 188 0070 F1EE410A 		vneg.f32	s1, s2
+ 189 0074 FFF7FEFF 		bl	LIMIT_MIN_MAX
+ 190              	.LVL9:
+  32:My_pid/pid.c  ****   return pid->output;
+ 191              		.loc 1 32 14 discriminator 1 view .LVU58
+ 192 0078 84ED0C0A 		vstr.32	s0, [r4, #48]
+  33:My_pid/pid.c  **** }
+ 193              		.loc 1 33 3 is_stmt 1 view .LVU59
+  34:My_pid/pid.c  **** 
+ 194              		.loc 1 34 1 is_stmt 0 view .LVU60
+ 195 007c BDEC028B 		vldm	sp!, {d8}
+ 196              	.LCFI2:
+ 197              		.cfi_restore 80
+ 198              		.cfi_restore 81
+ 199              		.cfi_def_cfa_offset 8
+ 200 0080 10BD     		pop	{r4, pc}
+  34:My_pid/pid.c  **** 
+ 201              		.loc 1 34 1 view .LVU61
+ 202              		.cfi_endproc
+ARM GAS  /tmp/ccICASIq.s 			page 6
+
+
+ 203              	.LFE131:
+ 205              		.section	.text.M3508_PID_init,"ax",%progbits
+ 206              		.align	1
+ 207              		.global	M3508_PID_init
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	M3508_PID_init:
+ 213              	.LFB133:
+  48:My_pid/pid.c  **** 
+  49:My_pid/pid.c  **** void M3508_PID_init()
+  50:My_pid/pid.c  **** {
+ 214              		.loc 1 50 1 is_stmt 1 view -0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218 0000 08B5     		push	{r3, lr}
+ 219              	.LCFI3:
+ 220              		.cfi_def_cfa_offset 8
+ 221              		.cfi_offset 3, -8
+ 222              		.cfi_offset 14, -4
+ 223 0002 2DED068B 		vpush.64	{d8, d9, d10}
+ 224              	.LCFI4:
+ 225              		.cfi_def_cfa_offset 32
+ 226              		.cfi_offset 80, -32
+ 227              		.cfi_offset 81, -28
+ 228              		.cfi_offset 82, -24
+ 229              		.cfi_offset 83, -20
+ 230              		.cfi_offset 84, -16
+ 231              		.cfi_offset 85, -12
+  51:My_pid/pid.c  **** 	pid_init(&M3508_1_PID_S,1.8,1.6,0.8, 13000, 15000);//P,I,D
+ 232              		.loc 1 51 2 view .LVU63
+ 233 0006 9FED1AAA 		vldr.32	s20, .L9
+ 234 000a DFED1A9A 		vldr.32	s19, .L9+4
+ 235 000e 9FED1A9A 		vldr.32	s18, .L9+8
+ 236 0012 DFED1A8A 		vldr.32	s17, .L9+12
+ 237 0016 9FED1A8A 		vldr.32	s16, .L9+16
+ 238 001a B0EE4A2A 		vmov.f32	s4, s20
+ 239 001e F0EE691A 		vmov.f32	s3, s19
+ 240 0022 B0EE491A 		vmov.f32	s2, s18
+ 241 0026 F0EE680A 		vmov.f32	s1, s17
+ 242 002a B0EE480A 		vmov.f32	s0, s16
+ 243 002e 1548     		ldr	r0, .L9+20
+ 244 0030 FFF7FEFF 		bl	pid_init
+ 245              	.LVL10:
+  52:My_pid/pid.c  **** //	pid_init(&M3508_2_PID_P,2,0,0.6, 1000, 1000);
+  53:My_pid/pid.c  **** 	pid_init(&M3508_2_PID_S,1.8,1.6,0.8, 13000, 15000);//P,I,D
+ 246              		.loc 1 53 2 view .LVU64
+ 247 0034 B0EE4A2A 		vmov.f32	s4, s20
+ 248 0038 F0EE691A 		vmov.f32	s3, s19
+ 249 003c B0EE491A 		vmov.f32	s2, s18
+ 250 0040 F0EE680A 		vmov.f32	s1, s17
+ 251 0044 B0EE480A 		vmov.f32	s0, s16
+ 252 0048 0F48     		ldr	r0, .L9+24
+ 253 004a FFF7FEFF 		bl	pid_init
+ 254              	.LVL11:
+  54:My_pid/pid.c  **** 	pid_init(&M2006_1_PID_S,1.3,0.11,0.15, 6000, 8500);//P,I,D
+ARM GAS  /tmp/ccICASIq.s 			page 7
+
+
+ 255              		.loc 1 54 2 view .LVU65
+ 256 004e 9FED0F2A 		vldr.32	s4, .L9+28
+ 257 0052 DFED0F1A 		vldr.32	s3, .L9+32
+ 258 0056 9FED0F1A 		vldr.32	s2, .L9+36
+ 259 005a DFED0F0A 		vldr.32	s1, .L9+40
+ 260 005e 9FED0F0A 		vldr.32	s0, .L9+44
+ 261 0062 0F48     		ldr	r0, .L9+48
+ 262 0064 FFF7FEFF 		bl	pid_init
+ 263              	.LVL12:
+  55:My_pid/pid.c  **** }
+ 264              		.loc 1 55 1 is_stmt 0 view .LVU66
+ 265 0068 BDEC068B 		vldm	sp!, {d8-d10}
+ 266              	.LCFI5:
+ 267              		.cfi_restore 84
+ 268              		.cfi_restore 85
+ 269              		.cfi_restore 82
+ 270              		.cfi_restore 83
+ 271              		.cfi_restore 80
+ 272              		.cfi_restore 81
+ 273              		.cfi_def_cfa_offset 8
+ 274 006c 08BD     		pop	{r3, pc}
+ 275              	.L10:
+ 276 006e 00BF     		.align	2
+ 277              	.L9:
+ 278 0070 00606A46 		.word	1181376512
+ 279 0074 00204B46 		.word	1179328512
+ 280 0078 CDCC4C3F 		.word	1061997773
+ 281 007c CDCCCC3F 		.word	1070386381
+ 282 0080 6666E63F 		.word	1072064102
+ 283 0084 00000000 		.word	M3508_1_PID_S
+ 284 0088 00000000 		.word	M3508_2_PID_S
+ 285 008c 00D00446 		.word	1174720512
+ 286 0090 0080BB45 		.word	1169915904
+ 287 0094 9A99193E 		.word	1041865114
+ 288 0098 AE47E13D 		.word	1038174126
+ 289 009c 6666A63F 		.word	1067869798
+ 290 00a0 00000000 		.word	M2006_1_PID_S
+ 291              		.cfi_endproc
+ 292              	.LFE133:
+ 294              		.global	M2006_1_PID_S
+ 295              		.section	.bss.M2006_1_PID_S,"aw",%nobits
+ 296              		.align	2
+ 299              	M2006_1_PID_S:
+ 300 0000 00000000 		.space	52
+ 300      00000000 
+ 300      00000000 
+ 300      00000000 
+ 300      00000000 
+ 301              		.global	M3508_2_PID_P
+ 302              		.section	.bss.M3508_2_PID_P,"aw",%nobits
+ 303              		.align	2
+ 306              	M3508_2_PID_P:
+ 307 0000 00000000 		.space	52
+ 307      00000000 
+ 307      00000000 
+ 307      00000000 
+ 307      00000000 
+ARM GAS  /tmp/ccICASIq.s 			page 8
+
+
+ 308              		.global	M3508_1_PID_P
+ 309              		.section	.bss.M3508_1_PID_P,"aw",%nobits
+ 310              		.align	2
+ 313              	M3508_1_PID_P:
+ 314 0000 00000000 		.space	52
+ 314      00000000 
+ 314      00000000 
+ 314      00000000 
+ 314      00000000 
+ 315              		.global	M3508_1_PID_S
+ 316              		.section	.bss.M3508_1_PID_S,"aw",%nobits
+ 317              		.align	2
+ 320              	M3508_1_PID_S:
+ 321 0000 00000000 		.space	52
+ 321      00000000 
+ 321      00000000 
+ 321      00000000 
+ 321      00000000 
+ 322              		.global	M3508_2_PID_S
+ 323              		.section	.bss.M3508_2_PID_S,"aw",%nobits
+ 324              		.align	2
+ 327              	M3508_2_PID_S:
+ 328 0000 00000000 		.space	52
+ 328      00000000 
+ 328      00000000 
+ 328      00000000 
+ 328      00000000 
+ 329              		.text
+ 330              	.Letext0:
+ 331              		.file 2 "My_pid/pid.h"
+ARM GAS  /tmp/ccICASIq.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 pid.c
+     /tmp/ccICASIq.s:21     .text.pid_init:00000000 $t
+     /tmp/ccICASIq.s:27     .text.pid_init:00000000 pid_init
+     /tmp/ccICASIq.s:56     .text.LIMIT_MIN_MAX:00000000 $t
+     /tmp/ccICASIq.s:62     .text.LIMIT_MIN_MAX:00000000 LIMIT_MIN_MAX
+     /tmp/ccICASIq.s:99     .text.pid_calc:00000000 $t
+     /tmp/ccICASIq.s:105    .text.pid_calc:00000000 pid_calc
+     /tmp/ccICASIq.s:206    .text.M3508_PID_init:00000000 $t
+     /tmp/ccICASIq.s:212    .text.M3508_PID_init:00000000 M3508_PID_init
+     /tmp/ccICASIq.s:278    .text.M3508_PID_init:00000070 $d
+     /tmp/ccICASIq.s:320    .bss.M3508_1_PID_S:00000000 M3508_1_PID_S
+     /tmp/ccICASIq.s:327    .bss.M3508_2_PID_S:00000000 M3508_2_PID_S
+     /tmp/ccICASIq.s:299    .bss.M2006_1_PID_S:00000000 M2006_1_PID_S
+     /tmp/ccICASIq.s:296    .bss.M2006_1_PID_S:00000000 $d
+     /tmp/ccICASIq.s:306    .bss.M3508_2_PID_P:00000000 M3508_2_PID_P
+     /tmp/ccICASIq.s:303    .bss.M3508_2_PID_P:00000000 $d
+     /tmp/ccICASIq.s:313    .bss.M3508_1_PID_P:00000000 M3508_1_PID_P
+     /tmp/ccICASIq.s:310    .bss.M3508_1_PID_P:00000000 $d
+     /tmp/ccICASIq.s:317    .bss.M3508_1_PID_S:00000000 $d
+     /tmp/ccICASIq.s:324    .bss.M3508_2_PID_S:00000000 $d
+
+NO UNDEFINED SYMBOLS

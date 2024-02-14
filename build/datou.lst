@@ -1,0 +1,1073 @@
+ARM GAS  /tmp/cckCw4BX.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"datou.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "DATOU/datou.c"
+  20              		.section	.text.hasChanged,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	hasChanged:
+  27              	.LVL0:
+  28              	.LFB134:
+   1:DATOU/datou.c **** #include "datou.h"
+   2:DATOU/datou.c **** 
+   3:DATOU/datou.c **** #include <stdint.h>
+   4:DATOU/datou.c **** #include <string.h>
+   5:DATOU/datou.c **** #include <stdio.h>
+   6:DATOU/datou.c **** 
+   7:DATOU/datou.c **** #include <usart.h>
+   8:DATOU/datou.c **** StepperMotorControl moto1;//一号轮
+   9:DATOU/datou.c **** StepperMotorControl moto2;//二号轮
+  10:DATOU/datou.c **** StepperMotorControl moto3;//三号轮
+  11:DATOU/datou.c **** StepperMotorControl moto4;//四号轮
+  12:DATOU/datou.c **** /******************************************************
+  13:DATOU/datou.c **** Function:    		void StepperMotorControl_init(StepperMotorControl *control, uint8_t address) 
+  14:DATOU/datou.c **** Description: 		指定电机初始化函数（这个函数是用来指定电机的速度的）
+  15:DATOU/datou.c **** Calls:				 	NONE 
+  16:DATOU/datou.c **** Input: 					StepperMotorControl *control这个变量是结构体变量，这个结构体里面有2�
+  17:DATOU/datou.c **** 								分别对应了当前发送的数据，上次发送的数据
+  18:DATOU/datou.c **** 								address	是电机设定的地址
+  19:DATOU/datou.c **** ******************************************************/
+  20:DATOU/datou.c **** 
+  21:DATOU/datou.c **** void StepperMotorControl_init(StepperMotorControl *control, uint8_t address) 
+  22:DATOU/datou.c **** {
+  23:DATOU/datou.c ****     uint8_t defaultBytes[6] = {0x00, 0xF6, 0x10, 0x00, 0xaf, 0x6B};
+  24:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 6);
+  25:DATOU/datou.c ****     memcpy(control->lastControlBytes, defaultBytes, 6);
+  26:DATOU/datou.c ****     control->controlBytes[0] = address;
+  27:DATOU/datou.c **** }
+  28:DATOU/datou.c **** 
+  29:DATOU/datou.c **** static uint8_t hasChanged(StepperMotorControl *control) 
+  30:DATOU/datou.c **** {
+ARM GAS  /tmp/cckCw4BX.s 			page 2
+
+
+  29              		.loc 1 30 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  31:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  34              		.loc 1 31 5 view .LVU1
+  35              	.LBB2:
+  36              		.loc 1 31 10 view .LVU2
+  37              		.loc 1 31 18 is_stmt 0 view .LVU3
+  38 0000 0023     		movs	r3, #0
+  39              	.LVL1:
+  40              	.L2:
+  41              		.loc 1 31 27 is_stmt 1 discriminator 1 view .LVU4
+  42 0002 052B     		cmp	r3, #5
+  43 0004 07D8     		bhi	.L6
+  32:DATOU/datou.c ****         if (control->controlBytes[i] != control->lastControlBytes[i]) 
+  44              		.loc 1 32 9 view .LVU5
+  45              		.loc 1 32 34 is_stmt 0 view .LVU6
+  46 0006 C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+  47              		.loc 1 32 66 view .LVU7
+  48 0008 C218     		adds	r2, r0, r3
+  49 000a 9279     		ldrb	r2, [r2, #6]	@ zero_extendqisi2
+  50              		.loc 1 32 12 view .LVU8
+  51 000c 9142     		cmp	r1, r2
+  52 000e 04D1     		bne	.L5
+  31:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  53              		.loc 1 31 33 is_stmt 1 discriminator 2 view .LVU9
+  54 0010 0133     		adds	r3, r3, #1
+  55              	.LVL2:
+  31:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  56              		.loc 1 31 33 is_stmt 0 discriminator 2 view .LVU10
+  57 0012 DBB2     		uxtb	r3, r3
+  58              	.LVL3:
+  31:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  59              		.loc 1 31 33 discriminator 2 view .LVU11
+  60 0014 F5E7     		b	.L2
+  61              	.L6:
+  31:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  62              		.loc 1 31 33 discriminator 2 view .LVU12
+  63              	.LBE2:
+  33:DATOU/datou.c **** 				{
+  34:DATOU/datou.c ****             return 1;
+  35:DATOU/datou.c ****         }
+  36:DATOU/datou.c ****     }
+  37:DATOU/datou.c ****     return 0;
+  64              		.loc 1 37 12 view .LVU13
+  65 0016 0020     		movs	r0, #0
+  66              	.LVL4:
+  67              	.LBB3:
+  68              		.loc 1 37 12 view .LVU14
+  69 0018 7047     		bx	lr
+  70              	.LVL5:
+  71              	.L5:
+  34:DATOU/datou.c ****         }
+  72              		.loc 1 34 20 view .LVU15
+  73 001a 0120     		movs	r0, #1
+ARM GAS  /tmp/cckCw4BX.s 			page 3
+
+
+  74              	.LVL6:
+  34:DATOU/datou.c ****         }
+  75              		.loc 1 34 20 view .LVU16
+  76              	.LBE3:
+  38:DATOU/datou.c **** }
+  77              		.loc 1 38 1 view .LVU17
+  78 001c 7047     		bx	lr
+  79              		.cfi_endproc
+  80              	.LFE134:
+  82              		.section	.text.updateLastControlBytes,"ax",%progbits
+  83              		.align	1
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  88              	updateLastControlBytes:
+  89              	.LVL7:
+  90              	.LFB135:
+  39:DATOU/datou.c **** 
+  40:DATOU/datou.c **** static void updateLastControlBytes(StepperMotorControl *control) 
+  41:DATOU/datou.c **** {
+  91              		.loc 1 41 1 is_stmt 1 view -0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  42:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+  96              		.loc 1 42 5 view .LVU19
+  97              	.LBB4:
+  98              		.loc 1 42 10 view .LVU20
+  99              		.loc 1 42 18 is_stmt 0 view .LVU21
+ 100 0000 0023     		movs	r3, #0
+ 101              		.loc 1 42 5 view .LVU22
+ 102 0002 04E0     		b	.L8
+ 103              	.LVL8:
+ 104              	.L9:
+  43:DATOU/datou.c ****         control->lastControlBytes[i] = control->controlBytes[i];
+ 105              		.loc 1 43 9 is_stmt 1 view .LVU23
+ 106              		.loc 1 43 61 is_stmt 0 view .LVU24
+ 107 0004 C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+ 108              		.loc 1 43 38 view .LVU25
+ 109 0006 C218     		adds	r2, r0, r3
+ 110 0008 9171     		strb	r1, [r2, #6]
+  42:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+ 111              		.loc 1 42 33 is_stmt 1 discriminator 3 view .LVU26
+ 112 000a 0133     		adds	r3, r3, #1
+ 113              	.LVL9:
+  42:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+ 114              		.loc 1 42 33 is_stmt 0 discriminator 3 view .LVU27
+ 115 000c DBB2     		uxtb	r3, r3
+ 116              	.LVL10:
+ 117              	.L8:
+  42:DATOU/datou.c ****     for (uint8_t i = 0; i < 6; i++) {
+ 118              		.loc 1 42 27 is_stmt 1 discriminator 1 view .LVU28
+ 119 000e 052B     		cmp	r3, #5
+ 120 0010 F8D9     		bls	.L9
+ 121              	.LBE4:
+  44:DATOU/datou.c ****     }
+ARM GAS  /tmp/cckCw4BX.s 			page 4
+
+
+  45:DATOU/datou.c **** }
+ 122              		.loc 1 45 1 is_stmt 0 view .LVU29
+ 123 0012 7047     		bx	lr
+ 124              		.cfi_endproc
+ 125              	.LFE135:
+ 127              		.section	.text.hasChanged_location,"ax",%progbits
+ 128              		.align	1
+ 129              		.syntax unified
+ 130              		.thumb
+ 131              		.thumb_func
+ 133              	hasChanged_location:
+ 134              	.LVL11:
+ 135              	.LFB140:
+  46:DATOU/datou.c **** 
+  47:DATOU/datou.c **** static void sendCommand(StepperMotorControl *control) 
+  48:DATOU/datou.c **** {
+  49:DATOU/datou.c ****     if (hasChanged(control)) {
+  50:DATOU/datou.c **** 
+  51:DATOU/datou.c **** 				HAL_UART_Transmit(&huart6, control->controlBytes, 6, 100);
+  52:DATOU/datou.c ****         updateLastControlBytes(control);
+  53:DATOU/datou.c ****     }
+  54:DATOU/datou.c **** }
+  55:DATOU/datou.c **** /******************************************************
+  56:DATOU/datou.c **** Function:    		void set_speed(StepperMotorControl *control, uint8_t direction, uint16_t speed) 
+  57:DATOU/datou.c **** Description: 		设置电机的转速
+  58:DATOU/datou.c **** Calls:				 	static void sendCommand(StepperMotorControl *control) 
+  59:DATOU/datou.c **** Input: 					StepperMotorControl *control这个变量是结构体变量，这个结构体里面有2�
+  60:DATOU/datou.c **** 								分别对应了当前发送的数据，上次发送的数据
+  61:DATOU/datou.c **** 								direction 是电机的方向
+  62:DATOU/datou.c **** 								speed	是电机的速度
+  63:DATOU/datou.c **** ******************************************************/
+  64:DATOU/datou.c **** void set_speed(StepperMotorControl *control, uint8_t direction, uint16_t speed) 
+  65:DATOU/datou.c **** {
+  66:DATOU/datou.c ****     if (direction) {
+  67:DATOU/datou.c ****         control->controlBytes[2] = (0x10) | ((speed >> 8) & 0x0F); // 逆时针方向
+  68:DATOU/datou.c ****     } else {
+  69:DATOU/datou.c ****         control->controlBytes[2] = (0x00) | ((speed >> 8) & 0x0F); // 顺时针方向
+  70:DATOU/datou.c ****     }
+  71:DATOU/datou.c ****     control->controlBytes[3] = speed & 0xFF;
+  72:DATOU/datou.c ****     sendCommand(control);
+  73:DATOU/datou.c **** }
+  74:DATOU/datou.c **** /******************************************************
+  75:DATOU/datou.c **** Function:    		void set_acceleration(StepperMotorControl *control, uint16_t acceleration) 
+  76:DATOU/datou.c **** Description: 		设置电机的加转速
+  77:DATOU/datou.c **** Calls:				 	static void sendCommand(StepperMotorControl *control) 
+  78:DATOU/datou.c **** Input: 					StepperMotorControl *control这个变量是结构体变量，这个结构体里面有2�
+  79:DATOU/datou.c **** 								分别对应了当前发送的数据，上次发送的数据
+  80:DATOU/datou.c **** 								acceleration	是电机的加速度
+  81:DATOU/datou.c **** ******************************************************/
+  82:DATOU/datou.c **** void set_acceleration(StepperMotorControl *control, uint16_t acceleration) 
+  83:DATOU/datou.c **** {
+  84:DATOU/datou.c ****     control->controlBytes[4] = acceleration;
+  85:DATOU/datou.c ****     sendCommand(control);
+  86:DATOU/datou.c **** }
+  87:DATOU/datou.c **** 
+  88:DATOU/datou.c **** StepperMotorControl_location moto_9;//下
+  89:DATOU/datou.c **** StepperMotorControl_location moto_8;//上
+ARM GAS  /tmp/cckCw4BX.s 			page 5
+
+
+  90:DATOU/datou.c **** 
+  91:DATOU/datou.c **** 
+  92:DATOU/datou.c **** /******************************************************
+  93:DATOU/datou.c **** Function:    		void StepperMotorControl_init_location(StepperMotorControl_location *control, uint8_
+  94:DATOU/datou.c **** Description: 		指定电机初始化函数（这个函数是用来指定电机的位置的）
+  95:DATOU/datou.c **** Calls:				 	NONE 
+  96:DATOU/datou.c **** Input: 					StepperMotorControl_location *control这个变量是结构体变量，这个结构体�
+  97:DATOU/datou.c **** 								分别对应了当前发送的数据，上次发送的StepperMotorControl_init(&moto1,0x01)
+  98:DATOU/datou.c **** 								address	是电机设定的地址
+  99:DATOU/datou.c **** ******************************************************/
+ 100:DATOU/datou.c **** 
+ 101:DATOU/datou.c **** void StepperMotorControl_init_location(StepperMotorControl_location *control, uint8_t address) 
+ 102:DATOU/datou.c **** {
+ 103:DATOU/datou.c **** 	
+ 104:DATOU/datou.c **** 	
+ 105:DATOU/datou.c ****     uint8_t defaultBytes[9] = {0x00, 0xFD, 0x12, 0x00, 0xaf,0x00,0x00,0x00,0x6B};
+ 106:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 9);
+ 107:DATOU/datou.c ****     memcpy(control->lastControlBytes, defaultBytes, 9);
+ 108:DATOU/datou.c ****     control->controlBytes[0] = address;
+ 109:DATOU/datou.c **** }
+ 110:DATOU/datou.c **** static uint8_t hasChanged_location(StepperMotorControl_location *control) 
+ 111:DATOU/datou.c **** {
+ 136              		.loc 1 111 1 is_stmt 1 view -0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		@ link register save eliminated.
+ 112:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 141              		.loc 1 112 5 view .LVU31
+ 142              	.LBB5:
+ 143              		.loc 1 112 10 view .LVU32
+ 144              		.loc 1 112 18 is_stmt 0 view .LVU33
+ 145 0000 0023     		movs	r3, #0
+ 146              	.LVL12:
+ 147              	.L11:
+ 148              		.loc 1 112 27 is_stmt 1 discriminator 1 view .LVU34
+ 149 0002 082B     		cmp	r3, #8
+ 150 0004 07D8     		bhi	.L15
+ 113:DATOU/datou.c ****         if (control->controlBytes[i] != control->lastControlBytes[i]) 
+ 151              		.loc 1 113 9 view .LVU35
+ 152              		.loc 1 113 34 is_stmt 0 view .LVU36
+ 153 0006 C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+ 154              		.loc 1 113 66 view .LVU37
+ 155 0008 C218     		adds	r2, r0, r3
+ 156 000a 527A     		ldrb	r2, [r2, #9]	@ zero_extendqisi2
+ 157              		.loc 1 113 12 view .LVU38
+ 158 000c 9142     		cmp	r1, r2
+ 159 000e 04D1     		bne	.L14
+ 112:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 160              		.loc 1 112 33 is_stmt 1 discriminator 2 view .LVU39
+ 161 0010 0133     		adds	r3, r3, #1
+ 162              	.LVL13:
+ 112:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 163              		.loc 1 112 33 is_stmt 0 discriminator 2 view .LVU40
+ 164 0012 DBB2     		uxtb	r3, r3
+ 165              	.LVL14:
+ 112:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ARM GAS  /tmp/cckCw4BX.s 			page 6
+
+
+ 166              		.loc 1 112 33 discriminator 2 view .LVU41
+ 167 0014 F5E7     		b	.L11
+ 168              	.L15:
+ 112:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 169              		.loc 1 112 33 discriminator 2 view .LVU42
+ 170              	.LBE5:
+ 114:DATOU/datou.c **** 				{
+ 115:DATOU/datou.c ****             return 1;
+ 116:DATOU/datou.c ****         }
+ 117:DATOU/datou.c ****     }
+ 118:DATOU/datou.c ****     return 0;
+ 171              		.loc 1 118 12 view .LVU43
+ 172 0016 0020     		movs	r0, #0
+ 173              	.LVL15:
+ 174              	.LBB6:
+ 175              		.loc 1 118 12 view .LVU44
+ 176 0018 7047     		bx	lr
+ 177              	.LVL16:
+ 178              	.L14:
+ 115:DATOU/datou.c ****         }
+ 179              		.loc 1 115 20 view .LVU45
+ 180 001a 0120     		movs	r0, #1
+ 181              	.LVL17:
+ 115:DATOU/datou.c ****         }
+ 182              		.loc 1 115 20 view .LVU46
+ 183              	.LBE6:
+ 119:DATOU/datou.c **** }
+ 184              		.loc 1 119 1 view .LVU47
+ 185 001c 7047     		bx	lr
+ 186              		.cfi_endproc
+ 187              	.LFE140:
+ 189              		.section	.text.updateLastControlBytes_location,"ax",%progbits
+ 190              		.align	1
+ 191              		.syntax unified
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	updateLastControlBytes_location:
+ 196              	.LVL18:
+ 197              	.LFB141:
+ 120:DATOU/datou.c **** static void updateLastControlBytes_location(StepperMotorControl_location *control) 
+ 121:DATOU/datou.c **** {
+ 198              		.loc 1 121 1 is_stmt 1 view -0
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 122:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 203              		.loc 1 122 5 view .LVU49
+ 204              	.LBB7:
+ 205              		.loc 1 122 10 view .LVU50
+ 206              		.loc 1 122 18 is_stmt 0 view .LVU51
+ 207 0000 0023     		movs	r3, #0
+ 208              		.loc 1 122 5 view .LVU52
+ 209 0002 04E0     		b	.L17
+ 210              	.LVL19:
+ 211              	.L18:
+ 123:DATOU/datou.c ****         control->lastControlBytes[i] = control->controlBytes[i];
+ARM GAS  /tmp/cckCw4BX.s 			page 7
+
+
+ 212              		.loc 1 123 9 is_stmt 1 view .LVU53
+ 213              		.loc 1 123 61 is_stmt 0 view .LVU54
+ 214 0004 C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+ 215              		.loc 1 123 38 view .LVU55
+ 216 0006 C218     		adds	r2, r0, r3
+ 217 0008 5172     		strb	r1, [r2, #9]
+ 122:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 218              		.loc 1 122 33 is_stmt 1 discriminator 3 view .LVU56
+ 219 000a 0133     		adds	r3, r3, #1
+ 220              	.LVL20:
+ 122:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 221              		.loc 1 122 33 is_stmt 0 discriminator 3 view .LVU57
+ 222 000c DBB2     		uxtb	r3, r3
+ 223              	.LVL21:
+ 224              	.L17:
+ 122:DATOU/datou.c ****     for (uint8_t i = 0; i < 9; i++) {
+ 225              		.loc 1 122 27 is_stmt 1 discriminator 1 view .LVU58
+ 226 000e 082B     		cmp	r3, #8
+ 227 0010 F8D9     		bls	.L18
+ 228              	.LBE7:
+ 124:DATOU/datou.c ****     }
+ 125:DATOU/datou.c **** }
+ 229              		.loc 1 125 1 is_stmt 0 view .LVU59
+ 230 0012 7047     		bx	lr
+ 231              		.cfi_endproc
+ 232              	.LFE141:
+ 234              		.section	.text.sendCommand,"ax",%progbits
+ 235              		.align	1
+ 236              		.syntax unified
+ 237              		.thumb
+ 238              		.thumb_func
+ 240              	sendCommand:
+ 241              	.LVL22:
+ 242              	.LFB136:
+  48:DATOU/datou.c ****     if (hasChanged(control)) {
+ 243              		.loc 1 48 1 is_stmt 1 view -0
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 0
+ 246              		@ frame_needed = 0, uses_anonymous_args = 0
+  48:DATOU/datou.c ****     if (hasChanged(control)) {
+ 247              		.loc 1 48 1 is_stmt 0 view .LVU61
+ 248 0000 10B5     		push	{r4, lr}
+ 249              	.LCFI0:
+ 250              		.cfi_def_cfa_offset 8
+ 251              		.cfi_offset 4, -8
+ 252              		.cfi_offset 14, -4
+ 253 0002 0446     		mov	r4, r0
+  49:DATOU/datou.c **** 
+ 254              		.loc 1 49 5 is_stmt 1 view .LVU62
+  49:DATOU/datou.c **** 
+ 255              		.loc 1 49 9 is_stmt 0 view .LVU63
+ 256 0004 FFF7FEFF 		bl	hasChanged
+ 257              	.LVL23:
+  49:DATOU/datou.c **** 
+ 258              		.loc 1 49 8 discriminator 1 view .LVU64
+ 259 0008 00B9     		cbnz	r0, .L22
+ 260              	.L19:
+ARM GAS  /tmp/cckCw4BX.s 			page 8
+
+
+  54:DATOU/datou.c **** /******************************************************
+ 261              		.loc 1 54 1 view .LVU65
+ 262 000a 10BD     		pop	{r4, pc}
+ 263              	.LVL24:
+ 264              	.L22:
+  51:DATOU/datou.c ****         updateLastControlBytes(control);
+ 265              		.loc 1 51 5 is_stmt 1 view .LVU66
+ 266 000c 6423     		movs	r3, #100
+ 267 000e 0622     		movs	r2, #6
+ 268 0010 2146     		mov	r1, r4
+ 269 0012 0348     		ldr	r0, .L23
+ 270 0014 FFF7FEFF 		bl	HAL_UART_Transmit
+ 271              	.LVL25:
+  52:DATOU/datou.c ****     }
+ 272              		.loc 1 52 9 view .LVU67
+ 273 0018 2046     		mov	r0, r4
+ 274 001a FFF7FEFF 		bl	updateLastControlBytes
+ 275              	.LVL26:
+  54:DATOU/datou.c **** /******************************************************
+ 276              		.loc 1 54 1 is_stmt 0 view .LVU68
+ 277 001e F4E7     		b	.L19
+ 278              	.L24:
+ 279              		.align	2
+ 280              	.L23:
+ 281 0020 00000000 		.word	huart6
+ 282              		.cfi_endproc
+ 283              	.LFE136:
+ 285              		.section	.text.sendCommand_location,"ax",%progbits
+ 286              		.align	1
+ 287              		.syntax unified
+ 288              		.thumb
+ 289              		.thumb_func
+ 291              	sendCommand_location:
+ 292              	.LVL27:
+ 293              	.LFB142:
+ 126:DATOU/datou.c **** 
+ 127:DATOU/datou.c **** static void sendCommand_location(StepperMotorControl_location *control) 
+ 128:DATOU/datou.c **** {
+ 294              		.loc 1 128 1 is_stmt 1 view -0
+ 295              		.cfi_startproc
+ 296              		@ args = 0, pretend = 0, frame = 0
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298              		.loc 1 128 1 is_stmt 0 view .LVU70
+ 299 0000 10B5     		push	{r4, lr}
+ 300              	.LCFI1:
+ 301              		.cfi_def_cfa_offset 8
+ 302              		.cfi_offset 4, -8
+ 303              		.cfi_offset 14, -4
+ 304 0002 0446     		mov	r4, r0
+ 129:DATOU/datou.c ****     if (hasChanged_location(control)) {
+ 305              		.loc 1 129 5 is_stmt 1 view .LVU71
+ 306              		.loc 1 129 9 is_stmt 0 view .LVU72
+ 307 0004 FFF7FEFF 		bl	hasChanged_location
+ 308              	.LVL28:
+ 309              		.loc 1 129 8 discriminator 1 view .LVU73
+ 310 0008 00B9     		cbnz	r0, .L28
+ 311              	.L25:
+ARM GAS  /tmp/cckCw4BX.s 			page 9
+
+
+ 130:DATOU/datou.c **** 
+ 131:DATOU/datou.c **** 				HAL_UART_Transmit(&huart6, control->controlBytes, 9, 100);
+ 132:DATOU/datou.c ****         updateLastControlBytes_location(control);
+ 133:DATOU/datou.c ****     }
+ 134:DATOU/datou.c **** }
+ 312              		.loc 1 134 1 view .LVU74
+ 313 000a 10BD     		pop	{r4, pc}
+ 314              	.LVL29:
+ 315              	.L28:
+ 131:DATOU/datou.c ****         updateLastControlBytes_location(control);
+ 316              		.loc 1 131 5 is_stmt 1 view .LVU75
+ 317 000c 6423     		movs	r3, #100
+ 318 000e 0922     		movs	r2, #9
+ 319 0010 2146     		mov	r1, r4
+ 320 0012 0348     		ldr	r0, .L29
+ 321 0014 FFF7FEFF 		bl	HAL_UART_Transmit
+ 322              	.LVL30:
+ 132:DATOU/datou.c ****     }
+ 323              		.loc 1 132 9 view .LVU76
+ 324 0018 2046     		mov	r0, r4
+ 325 001a FFF7FEFF 		bl	updateLastControlBytes_location
+ 326              	.LVL31:
+ 327              		.loc 1 134 1 is_stmt 0 view .LVU77
+ 328 001e F4E7     		b	.L25
+ 329              	.L30:
+ 330              		.align	2
+ 331              	.L29:
+ 332 0020 00000000 		.word	huart6
+ 333              		.cfi_endproc
+ 334              	.LFE142:
+ 336              		.section	.text.set_location,"ax",%progbits
+ 337              		.align	1
+ 338              		.syntax unified
+ 339              		.thumb
+ 340              		.thumb_func
+ 342              	set_location:
+ 343              	.LVL32:
+ 344              	.LFB143:
+ 135:DATOU/datou.c **** 
+ 136:DATOU/datou.c **** static void set_location(StepperMotorControl_location *control, Command com, int pulse_num) 
+ 137:DATOU/datou.c **** {		
+ 345              		.loc 1 137 1 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349              		.loc 1 137 1 is_stmt 0 view .LVU79
+ 350 0000 08B5     		push	{r3, lr}
+ 351              	.LCFI2:
+ 352              		.cfi_def_cfa_offset 8
+ 353              		.cfi_offset 3, -8
+ 354              		.cfi_offset 14, -4
+ 138:DATOU/datou.c **** 	control->controlBytes[2] =com;
+ 355              		.loc 1 138 2 is_stmt 1 view .LVU80
+ 356              		.loc 1 138 27 is_stmt 0 view .LVU81
+ 357 0002 8170     		strb	r1, [r0, #2]
+ 139:DATOU/datou.c **** 	
+ 140:DATOU/datou.c **** 	control->controlBytes[6] = pulse_num>>8;/* 脉冲数中字节 */
+ARM GAS  /tmp/cckCw4BX.s 			page 10
+
+
+ 358              		.loc 1 140 2 is_stmt 1 view .LVU82
+ 359              		.loc 1 140 38 is_stmt 0 view .LVU83
+ 360 0004 1112     		asrs	r1, r2, #8
+ 361              	.LVL33:
+ 362              		.loc 1 140 27 view .LVU84
+ 363 0006 8171     		strb	r1, [r0, #6]
+ 141:DATOU/datou.c **** 	control->controlBytes[7] = pulse_num-((pulse_num>>8)<<8);	/* 脉冲数低字节 */
+ 364              		.loc 1 141 2 is_stmt 1 view .LVU85
+ 365              		.loc 1 141 27 is_stmt 0 view .LVU86
+ 366 0008 C271     		strb	r2, [r0, #7]
+ 142:DATOU/datou.c **** 
+ 143:DATOU/datou.c ****     sendCommand_location(control);
+ 367              		.loc 1 143 5 is_stmt 1 view .LVU87
+ 368 000a FFF7FEFF 		bl	sendCommand_location
+ 369              	.LVL34:
+ 144:DATOU/datou.c **** }
+ 370              		.loc 1 144 1 is_stmt 0 view .LVU88
+ 371 000e 08BD     		pop	{r3, pc}
+ 372              		.cfi_endproc
+ 373              	.LFE143:
+ 375              		.section	.text.StepperMotorControl_init,"ax",%progbits
+ 376              		.align	1
+ 377              		.global	StepperMotorControl_init
+ 378              		.syntax unified
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	StepperMotorControl_init:
+ 383              	.LVL35:
+ 384              	.LFB133:
+  22:DATOU/datou.c ****     uint8_t defaultBytes[6] = {0x00, 0xF6, 0x10, 0x00, 0xaf, 0x6B};
+ 385              		.loc 1 22 1 is_stmt 1 view -0
+ 386              		.cfi_startproc
+ 387              		@ args = 0, pretend = 0, frame = 8
+ 388              		@ frame_needed = 0, uses_anonymous_args = 0
+ 389              		@ link register save eliminated.
+  22:DATOU/datou.c ****     uint8_t defaultBytes[6] = {0x00, 0xF6, 0x10, 0x00, 0xaf, 0x6B};
+ 390              		.loc 1 22 1 is_stmt 0 view .LVU90
+ 391 0000 82B0     		sub	sp, sp, #8
+ 392              	.LCFI3:
+ 393              		.cfi_def_cfa_offset 8
+ 394 0002 0346     		mov	r3, r0
+ 395 0004 8C46     		mov	ip, r1
+  23:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 6);
+ 396              		.loc 1 23 5 is_stmt 1 view .LVU91
+  23:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 6);
+ 397              		.loc 1 23 13 is_stmt 0 view .LVU92
+ 398 0006 084A     		ldr	r2, .L35
+ 399 0008 92E80300 		ldm	r2, {r0, r1}
+ 400              	.LVL36:
+  23:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 6);
+ 401              		.loc 1 23 13 view .LVU93
+ 402 000c 0090     		str	r0, [sp]
+ 403 000e ADF80410 		strh	r1, [sp, #4]	@ movhi
+  24:DATOU/datou.c ****     memcpy(control->lastControlBytes, defaultBytes, 6);
+ 404              		.loc 1 24 5 is_stmt 1 view .LVU94
+ 405 0012 1860     		str	r0, [r3]	@ unaligned
+ 406 0014 BDF80420 		ldrh	r2, [sp, #4]	@ unaligned
+ARM GAS  /tmp/cckCw4BX.s 			page 11
+
+
+ 407 0018 9A80     		strh	r2, [r3, #4]	@ unaligned
+  25:DATOU/datou.c ****     control->controlBytes[0] = address;
+ 408              		.loc 1 25 5 view .LVU95
+ 409 001a C3F80600 		str	r0, [r3, #6]	@ unaligned
+ 410 001e 5A81     		strh	r2, [r3, #10]	@ unaligned
+  26:DATOU/datou.c **** }
+ 411              		.loc 1 26 5 view .LVU96
+  26:DATOU/datou.c **** }
+ 412              		.loc 1 26 30 is_stmt 0 view .LVU97
+ 413 0020 83F800C0 		strb	ip, [r3]
+  27:DATOU/datou.c **** 
+ 414              		.loc 1 27 1 view .LVU98
+ 415 0024 02B0     		add	sp, sp, #8
+ 416              	.LCFI4:
+ 417              		.cfi_def_cfa_offset 0
+ 418              		@ sp needed
+ 419 0026 7047     		bx	lr
+ 420              	.L36:
+ 421              		.align	2
+ 422              	.L35:
+ 423 0028 00000000 		.word	.LANCHOR0
+ 424              		.cfi_endproc
+ 425              	.LFE133:
+ 427              		.section	.text.set_speed,"ax",%progbits
+ 428              		.align	1
+ 429              		.global	set_speed
+ 430              		.syntax unified
+ 431              		.thumb
+ 432              		.thumb_func
+ 434              	set_speed:
+ 435              	.LVL37:
+ 436              	.LFB137:
+  65:DATOU/datou.c ****     if (direction) {
+ 437              		.loc 1 65 1 is_stmt 1 view -0
+ 438              		.cfi_startproc
+ 439              		@ args = 0, pretend = 0, frame = 0
+ 440              		@ frame_needed = 0, uses_anonymous_args = 0
+  65:DATOU/datou.c ****     if (direction) {
+ 441              		.loc 1 65 1 is_stmt 0 view .LVU100
+ 442 0000 08B5     		push	{r3, lr}
+ 443              	.LCFI5:
+ 444              		.cfi_def_cfa_offset 8
+ 445              		.cfi_offset 3, -8
+ 446              		.cfi_offset 14, -4
+  66:DATOU/datou.c ****         control->controlBytes[2] = (0x10) | ((speed >> 8) & 0x0F); // 逆时针方向
+ 447              		.loc 1 66 5 is_stmt 1 view .LVU101
+  66:DATOU/datou.c ****         control->controlBytes[2] = (0x10) | ((speed >> 8) & 0x0F); // 逆时针方向
+ 448              		.loc 1 66 8 is_stmt 0 view .LVU102
+ 449 0002 41B1     		cbz	r1, .L38
+  67:DATOU/datou.c ****     } else {
+ 450              		.loc 1 67 9 is_stmt 1 view .LVU103
+  67:DATOU/datou.c ****     } else {
+ 451              		.loc 1 67 59 is_stmt 0 view .LVU104
+ 452 0004 C2F30323 		ubfx	r3, r2, #8, #4
+  67:DATOU/datou.c ****     } else {
+ 453              		.loc 1 67 43 view .LVU105
+ 454 0008 43F01003 		orr	r3, r3, #16
+ARM GAS  /tmp/cckCw4BX.s 			page 12
+
+
+  67:DATOU/datou.c ****     } else {
+ 455              		.loc 1 67 34 view .LVU106
+ 456 000c 8370     		strb	r3, [r0, #2]
+ 457              	.L39:
+  71:DATOU/datou.c ****     sendCommand(control);
+ 458              		.loc 1 71 5 is_stmt 1 view .LVU107
+  71:DATOU/datou.c ****     sendCommand(control);
+ 459              		.loc 1 71 30 is_stmt 0 view .LVU108
+ 460 000e C270     		strb	r2, [r0, #3]
+  72:DATOU/datou.c **** }
+ 461              		.loc 1 72 5 is_stmt 1 view .LVU109
+ 462 0010 FFF7FEFF 		bl	sendCommand
+ 463              	.LVL38:
+  73:DATOU/datou.c **** /******************************************************
+ 464              		.loc 1 73 1 is_stmt 0 view .LVU110
+ 465 0014 08BD     		pop	{r3, pc}
+ 466              	.LVL39:
+ 467              	.L38:
+  69:DATOU/datou.c ****     }
+ 468              		.loc 1 69 9 is_stmt 1 view .LVU111
+  69:DATOU/datou.c ****     }
+ 469              		.loc 1 69 43 is_stmt 0 view .LVU112
+ 470 0016 C2F30323 		ubfx	r3, r2, #8, #4
+  69:DATOU/datou.c ****     }
+ 471              		.loc 1 69 34 view .LVU113
+ 472 001a 8370     		strb	r3, [r0, #2]
+ 473 001c F7E7     		b	.L39
+ 474              		.cfi_endproc
+ 475              	.LFE137:
+ 477              		.section	.text.set_acceleration,"ax",%progbits
+ 478              		.align	1
+ 479              		.global	set_acceleration
+ 480              		.syntax unified
+ 481              		.thumb
+ 482              		.thumb_func
+ 484              	set_acceleration:
+ 485              	.LVL40:
+ 486              	.LFB138:
+  83:DATOU/datou.c ****     control->controlBytes[4] = acceleration;
+ 487              		.loc 1 83 1 is_stmt 1 view -0
+ 488              		.cfi_startproc
+ 489              		@ args = 0, pretend = 0, frame = 0
+ 490              		@ frame_needed = 0, uses_anonymous_args = 0
+  83:DATOU/datou.c ****     control->controlBytes[4] = acceleration;
+ 491              		.loc 1 83 1 is_stmt 0 view .LVU115
+ 492 0000 08B5     		push	{r3, lr}
+ 493              	.LCFI6:
+ 494              		.cfi_def_cfa_offset 8
+ 495              		.cfi_offset 3, -8
+ 496              		.cfi_offset 14, -4
+  84:DATOU/datou.c ****     sendCommand(control);
+ 497              		.loc 1 84 5 is_stmt 1 view .LVU116
+  84:DATOU/datou.c ****     sendCommand(control);
+ 498              		.loc 1 84 30 is_stmt 0 view .LVU117
+ 499 0002 0171     		strb	r1, [r0, #4]
+  85:DATOU/datou.c **** }
+ 500              		.loc 1 85 5 is_stmt 1 view .LVU118
+ARM GAS  /tmp/cckCw4BX.s 			page 13
+
+
+ 501 0004 FFF7FEFF 		bl	sendCommand
+ 502              	.LVL41:
+  86:DATOU/datou.c **** 
+ 503              		.loc 1 86 1 is_stmt 0 view .LVU119
+ 504 0008 08BD     		pop	{r3, pc}
+ 505              		.cfi_endproc
+ 506              	.LFE138:
+ 508              		.section	.text.StepperMotorControl_init_location,"ax",%progbits
+ 509              		.align	1
+ 510              		.global	StepperMotorControl_init_location
+ 511              		.syntax unified
+ 512              		.thumb
+ 513              		.thumb_func
+ 515              	StepperMotorControl_init_location:
+ 516              	.LVL42:
+ 517              	.LFB139:
+ 102:DATOU/datou.c **** 	
+ 518              		.loc 1 102 1 is_stmt 1 view -0
+ 519              		.cfi_startproc
+ 520              		@ args = 0, pretend = 0, frame = 16
+ 521              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102:DATOU/datou.c **** 	
+ 522              		.loc 1 102 1 is_stmt 0 view .LVU121
+ 523 0000 00B5     		push	{lr}
+ 524              	.LCFI7:
+ 525              		.cfi_def_cfa_offset 4
+ 526              		.cfi_offset 14, -4
+ 527 0002 85B0     		sub	sp, sp, #20
+ 528              	.LCFI8:
+ 529              		.cfi_def_cfa_offset 24
+ 530 0004 0346     		mov	r3, r0
+ 531 0006 8E46     		mov	lr, r1
+ 105:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 9);
+ 532              		.loc 1 105 5 is_stmt 1 view .LVU122
+ 105:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 9);
+ 533              		.loc 1 105 13 is_stmt 0 view .LVU123
+ 534 0008 0DF1040C 		add	ip, sp, #4
+ 535 000c 0C4A     		ldr	r2, .L45
+ 536 000e 07CA     		ldm	r2, {r0, r1, r2}
+ 537              	.LVL43:
+ 105:DATOU/datou.c ****     memcpy(control->controlBytes, defaultBytes, 9);
+ 538              		.loc 1 105 13 view .LVU124
+ 539 0010 ACE80300 		stmia	ip!, {r0, r1}
+ 540 0014 8CF80020 		strb	r2, [ip]
+ 106:DATOU/datou.c ****     memcpy(control->lastControlBytes, defaultBytes, 9);
+ 541              		.loc 1 106 5 is_stmt 1 view .LVU125
+ 542 0018 01AA     		add	r2, sp, #4
+ 543 001a 03CA     		ldmia	r2!, {r0, r1}
+ 544 001c 1860     		str	r0, [r3]	@ unaligned
+ 545 001e 5960     		str	r1, [r3, #4]	@ unaligned
+ 546 0020 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 547 0022 1A72     		strb	r2, [r3, #8]
+ 107:DATOU/datou.c ****     control->controlBytes[0] = address;
+ 548              		.loc 1 107 5 view .LVU126
+ 549 0024 01AA     		add	r2, sp, #4
+ 550 0026 03CA     		ldmia	r2!, {r0, r1}
+ 551 0028 C3F80900 		str	r0, [r3, #9]	@ unaligned
+ARM GAS  /tmp/cckCw4BX.s 			page 14
+
+
+ 552 002c C3F80D10 		str	r1, [r3, #13]	@ unaligned
+ 553 0030 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 554 0032 5A74     		strb	r2, [r3, #17]
+ 108:DATOU/datou.c **** }
+ 555              		.loc 1 108 5 view .LVU127
+ 108:DATOU/datou.c **** }
+ 556              		.loc 1 108 30 is_stmt 0 view .LVU128
+ 557 0034 83F800E0 		strb	lr, [r3]
+ 109:DATOU/datou.c **** static uint8_t hasChanged_location(StepperMotorControl_location *control) 
+ 558              		.loc 1 109 1 view .LVU129
+ 559 0038 05B0     		add	sp, sp, #20
+ 560              	.LCFI9:
+ 561              		.cfi_def_cfa_offset 4
+ 562              		@ sp needed
+ 563 003a 5DF804FB 		ldr	pc, [sp], #4
+ 564              	.L46:
+ 565 003e 00BF     		.align	2
+ 566              	.L45:
+ 567 0040 08000000 		.word	.LANCHOR0+8
+ 568              		.cfi_endproc
+ 569              	.LFE139:
+ 571              		.global	__aeabi_f2d
+ 572              		.global	__aeabi_ddiv
+ 573              		.global	__aeabi_dmul
+ 574              		.global	__aeabi_d2iz
+ 575              		.section	.text.set_angle_control_location,"ax",%progbits
+ 576              		.align	1
+ 577              		.global	set_angle_control_location
+ 578              		.syntax unified
+ 579              		.thumb
+ 580              		.thumb_func
+ 582              	set_angle_control_location:
+ 583              	.LVL44:
+ 584              	.LFB144:
+ 145:DATOU/datou.c **** 
+ 146:DATOU/datou.c **** 
+ 147:DATOU/datou.c **** /******************************************************
+ 148:DATOU/datou.c **** Function:    	void set_angle_control_location(StepperMotorControl_location *control, float target_a
+ 149:DATOU/datou.c **** Description: 	控制指定电机的角度
+ 150:DATOU/datou.c **** Calls:				 static void set_location(StepperMotorControl_location *control, Command com, int pulse_n
+ 151:DATOU/datou.c **** Input: 					StepperMotorControl_location *control这个变量是结构体变量，这个结构体�
+ 152:DATOU/datou.c **** 								分别对应了当前发送的数据，上次发送的数据，以及当前的位置值（�
+ 153:DATOU/datou.c **** 								target_angle_num	是目标角度
+ 154:DATOU/datou.c **** ******************************************************/
+ 155:DATOU/datou.c **** #define a_circle_pulse 3200.0//这是一圈需要的脉冲数
+ 156:DATOU/datou.c **** void set_angle_control_location(StepperMotorControl_location *control, float target_angle_num)
+ 157:DATOU/datou.c **** {
+ 585              		.loc 1 157 1 is_stmt 1 view -0
+ 586              		.cfi_startproc
+ 587              		@ args = 0, pretend = 0, frame = 0
+ 588              		@ frame_needed = 0, uses_anonymous_args = 0
+ 589              		.loc 1 157 1 is_stmt 0 view .LVU131
+ 590 0000 10B5     		push	{r4, lr}
+ 591              	.LCFI10:
+ 592              		.cfi_def_cfa_offset 8
+ 593              		.cfi_offset 4, -8
+ 594              		.cfi_offset 14, -4
+ARM GAS  /tmp/cckCw4BX.s 			page 15
+
+
+ 595 0002 2DED028B 		vpush.64	{d8}
+ 596              	.LCFI11:
+ 597              		.cfi_def_cfa_offset 16
+ 598              		.cfi_offset 80, -16
+ 599              		.cfi_offset 81, -12
+ 600 0006 0446     		mov	r4, r0
+ 601 0008 F0EE408A 		vmov.f32	s17, s0
+ 158:DATOU/datou.c **** 	double error_angle=target_angle_num-(control->now_angle);
+ 602              		.loc 1 158 2 is_stmt 1 view .LVU132
+ 603              		.loc 1 158 46 is_stmt 0 view .LVU133
+ 604 000c 90ED058A 		vldr.32	s16, [r0, #20]
+ 605              		.loc 1 158 37 view .LVU134
+ 606 0010 30EE488A 		vsub.f32	s16, s0, s16
+ 607              		.loc 1 158 9 view .LVU135
+ 608 0014 18EE100A 		vmov	r0, s16
+ 609              	.LVL45:
+ 610              		.loc 1 158 9 view .LVU136
+ 611 0018 FFF7FEFF 		bl	__aeabi_f2d
+ 612              	.LVL46:
+ 159:DATOU/datou.c **** 	int need_pulse=(int)(error_angle/360.0*a_circle_pulse);
+ 613              		.loc 1 159 2 is_stmt 1 view .LVU137
+ 614              		.loc 1 159 34 is_stmt 0 view .LVU138
+ 615 001c 0022     		movs	r2, #0
+ 616 001e 104B     		ldr	r3, .L53
+ 617 0020 FFF7FEFF 		bl	__aeabi_ddiv
+ 618              	.LVL47:
+ 619              		.loc 1 159 40 view .LVU139
+ 620 0024 0022     		movs	r2, #0
+ 621 0026 0F4B     		ldr	r3, .L53+4
+ 622 0028 FFF7FEFF 		bl	__aeabi_dmul
+ 623              	.LVL48:
+ 624              		.loc 1 159 6 view .LVU140
+ 625 002c FFF7FEFF 		bl	__aeabi_d2iz
+ 626              	.LVL49:
+ 160:DATOU/datou.c **** 	if(error_angle!=0)
+ 627              		.loc 1 160 2 is_stmt 1 view .LVU141
+ 628              		.loc 1 160 4 is_stmt 0 view .LVU142
+ 629 0030 B5EE408A 		vcmp.f32	s16, #0
+ 630 0034 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 631 0038 08D0     		beq	.L47
+ 161:DATOU/datou.c **** 	{
+ 162:DATOU/datou.c **** 		if(need_pulse<0)
+ 632              		.loc 1 162 3 is_stmt 1 view .LVU143
+ 633              		.loc 1 162 5 is_stmt 0 view .LVU144
+ 634 003a 0028     		cmp	r0, #0
+ 635 003c 09DB     		blt	.L52
+ 163:DATOU/datou.c **** 		{
+ 164:DATOU/datou.c **** 			set_location(control,reverse, -need_pulse);//注意此处的reverse可能需要改成forward，�
+ 165:DATOU/datou.c **** 		}
+ 166:DATOU/datou.c **** 		else
+ 167:DATOU/datou.c **** 		{
+ 168:DATOU/datou.c **** 			set_location(control,forward, need_pulse);//注意此处的forward可能需要改成reverse，�
+ 636              		.loc 1 168 4 is_stmt 1 view .LVU145
+ 637 003e 0246     		mov	r2, r0
+ 638 0040 1221     		movs	r1, #18
+ 639 0042 2046     		mov	r0, r4
+ 640              	.LVL50:
+ARM GAS  /tmp/cckCw4BX.s 			page 16
+
+
+ 641              		.loc 1 168 4 is_stmt 0 view .LVU146
+ 642 0044 FFF7FEFF 		bl	set_location
+ 643              	.LVL51:
+ 644              	.L50:
+ 169:DATOU/datou.c **** 		}
+ 170:DATOU/datou.c **** 		control->now_angle=target_angle_num;
+ 645              		.loc 1 170 3 is_stmt 1 view .LVU147
+ 646              		.loc 1 170 21 is_stmt 0 view .LVU148
+ 647 0048 C4ED058A 		vstr.32	s17, [r4, #20]
+ 648              	.L47:
+ 171:DATOU/datou.c **** 		
+ 172:DATOU/datou.c **** 	}
+ 173:DATOU/datou.c **** }
+ 649              		.loc 1 173 1 view .LVU149
+ 650 004c BDEC028B 		vldm	sp!, {d8}
+ 651              	.LCFI12:
+ 652              		.cfi_remember_state
+ 653              		.cfi_restore 80
+ 654              		.cfi_restore 81
+ 655              		.cfi_def_cfa_offset 8
+ 656 0050 10BD     		pop	{r4, pc}
+ 657              	.LVL52:
+ 658              	.L52:
+ 659              	.LCFI13:
+ 660              		.cfi_restore_state
+ 164:DATOU/datou.c **** 		}
+ 661              		.loc 1 164 4 is_stmt 1 view .LVU150
+ 662 0052 4242     		rsbs	r2, r0, #0
+ 663 0054 0221     		movs	r1, #2
+ 664 0056 2046     		mov	r0, r4
+ 665              	.LVL53:
+ 164:DATOU/datou.c **** 		}
+ 666              		.loc 1 164 4 is_stmt 0 view .LVU151
+ 667 0058 FFF7FEFF 		bl	set_location
+ 668              	.LVL54:
+ 164:DATOU/datou.c **** 		}
+ 669              		.loc 1 164 4 view .LVU152
+ 670 005c F4E7     		b	.L50
+ 671              	.L54:
+ 672 005e 00BF     		.align	2
+ 673              	.L53:
+ 674 0060 00807640 		.word	1081507840
+ 675 0064 0000A940 		.word	1084817408
+ 676              		.cfi_endproc
+ 677              	.LFE144:
+ 679              		.global	moto_8
+ 680              		.section	.bss.moto_8,"aw",%nobits
+ 681              		.align	2
+ 684              	moto_8:
+ 685 0000 00000000 		.space	24
+ 685      00000000 
+ 685      00000000 
+ 685      00000000 
+ 685      00000000 
+ 686              		.global	moto_9
+ 687              		.section	.bss.moto_9,"aw",%nobits
+ 688              		.align	2
+ARM GAS  /tmp/cckCw4BX.s 			page 17
+
+
+ 691              	moto_9:
+ 692 0000 00000000 		.space	24
+ 692      00000000 
+ 692      00000000 
+ 692      00000000 
+ 692      00000000 
+ 693              		.global	moto4
+ 694              		.section	.bss.moto4,"aw",%nobits
+ 695              		.align	2
+ 698              	moto4:
+ 699 0000 00000000 		.space	12
+ 699      00000000 
+ 699      00000000 
+ 700              		.global	moto3
+ 701              		.section	.bss.moto3,"aw",%nobits
+ 702              		.align	2
+ 705              	moto3:
+ 706 0000 00000000 		.space	12
+ 706      00000000 
+ 706      00000000 
+ 707              		.global	moto2
+ 708              		.section	.bss.moto2,"aw",%nobits
+ 709              		.align	2
+ 712              	moto2:
+ 713 0000 00000000 		.space	12
+ 713      00000000 
+ 713      00000000 
+ 714              		.global	moto1
+ 715              		.section	.bss.moto1,"aw",%nobits
+ 716              		.align	2
+ 719              	moto1:
+ 720 0000 00000000 		.space	12
+ 720      00000000 
+ 720      00000000 
+ 721              		.section	.rodata
+ 722              		.align	2
+ 723              		.set	.LANCHOR0,. + 0
+ 724              	.LC0:
+ 725 0000 00F61000 		.ascii	"\000\366\020\000\257k"
+ 725      AF6B
+ 726 0006 0000     		.space	2
+ 727              	.LC1:
+ 728 0008 00FD1200 		.ascii	"\000\375\022\000\257\000\000\000k"
+ 728      AF000000 
+ 728      6B
+ 729              		.text
+ 730              	.Letext0:
+ 731              		.file 2 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 732              		.file 3 "/home/mondrian/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+ 733              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 734              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 735              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 736              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 737              		.file 8 "DATOU/datou.h"
+ 738              		.file 9 "Core/Inc/usart.h"
+ARM GAS  /tmp/cckCw4BX.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 datou.c
+     /tmp/cckCw4BX.s:21     .text.hasChanged:00000000 $t
+     /tmp/cckCw4BX.s:26     .text.hasChanged:00000000 hasChanged
+     /tmp/cckCw4BX.s:83     .text.updateLastControlBytes:00000000 $t
+     /tmp/cckCw4BX.s:88     .text.updateLastControlBytes:00000000 updateLastControlBytes
+     /tmp/cckCw4BX.s:128    .text.hasChanged_location:00000000 $t
+     /tmp/cckCw4BX.s:133    .text.hasChanged_location:00000000 hasChanged_location
+     /tmp/cckCw4BX.s:190    .text.updateLastControlBytes_location:00000000 $t
+     /tmp/cckCw4BX.s:195    .text.updateLastControlBytes_location:00000000 updateLastControlBytes_location
+     /tmp/cckCw4BX.s:235    .text.sendCommand:00000000 $t
+     /tmp/cckCw4BX.s:240    .text.sendCommand:00000000 sendCommand
+     /tmp/cckCw4BX.s:281    .text.sendCommand:00000020 $d
+     /tmp/cckCw4BX.s:286    .text.sendCommand_location:00000000 $t
+     /tmp/cckCw4BX.s:291    .text.sendCommand_location:00000000 sendCommand_location
+     /tmp/cckCw4BX.s:332    .text.sendCommand_location:00000020 $d
+     /tmp/cckCw4BX.s:337    .text.set_location:00000000 $t
+     /tmp/cckCw4BX.s:342    .text.set_location:00000000 set_location
+     /tmp/cckCw4BX.s:376    .text.StepperMotorControl_init:00000000 $t
+     /tmp/cckCw4BX.s:382    .text.StepperMotorControl_init:00000000 StepperMotorControl_init
+     /tmp/cckCw4BX.s:423    .text.StepperMotorControl_init:00000028 $d
+     /tmp/cckCw4BX.s:428    .text.set_speed:00000000 $t
+     /tmp/cckCw4BX.s:434    .text.set_speed:00000000 set_speed
+     /tmp/cckCw4BX.s:478    .text.set_acceleration:00000000 $t
+     /tmp/cckCw4BX.s:484    .text.set_acceleration:00000000 set_acceleration
+     /tmp/cckCw4BX.s:509    .text.StepperMotorControl_init_location:00000000 $t
+     /tmp/cckCw4BX.s:515    .text.StepperMotorControl_init_location:00000000 StepperMotorControl_init_location
+     /tmp/cckCw4BX.s:567    .text.StepperMotorControl_init_location:00000040 $d
+     /tmp/cckCw4BX.s:576    .text.set_angle_control_location:00000000 $t
+     /tmp/cckCw4BX.s:582    .text.set_angle_control_location:00000000 set_angle_control_location
+     /tmp/cckCw4BX.s:674    .text.set_angle_control_location:00000060 $d
+     /tmp/cckCw4BX.s:684    .bss.moto_8:00000000 moto_8
+     /tmp/cckCw4BX.s:681    .bss.moto_8:00000000 $d
+     /tmp/cckCw4BX.s:691    .bss.moto_9:00000000 moto_9
+     /tmp/cckCw4BX.s:688    .bss.moto_9:00000000 $d
+     /tmp/cckCw4BX.s:698    .bss.moto4:00000000 moto4
+     /tmp/cckCw4BX.s:695    .bss.moto4:00000000 $d
+     /tmp/cckCw4BX.s:705    .bss.moto3:00000000 moto3
+     /tmp/cckCw4BX.s:702    .bss.moto3:00000000 $d
+     /tmp/cckCw4BX.s:712    .bss.moto2:00000000 moto2
+     /tmp/cckCw4BX.s:709    .bss.moto2:00000000 $d
+     /tmp/cckCw4BX.s:719    .bss.moto1:00000000 moto1
+     /tmp/cckCw4BX.s:716    .bss.moto1:00000000 $d
+     /tmp/cckCw4BX.s:722    .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit
+huart6
+__aeabi_f2d
+__aeabi_ddiv
+__aeabi_dmul
+__aeabi_d2iz
