@@ -49,7 +49,6 @@ extern pid_struct_t M3508_1_PID_P;
 extern pid_struct_t M3508_2_PID_P;
 extern M3508_information M3508_1;
 extern M3508_information M3508_2;
-
 extern M3508_information M2006_1;
 /* USER CODE END PD */
 
@@ -67,8 +66,10 @@ int M2006_1_Speed=0;
 
 int M3508_1_Position=6000;
 int M3508_2_Position=6000;
-int Dart_shoot_flag=0;
+uint16_t Dart_shoot_flag=0;
 uint16_t Dart_Key_flag=0;
+uint16_t Dart_test_flag=0;
+uint16_t Dart_mode=3;//1为手动模式，3为锁定模式，2为自动模式
 uint8_t sbus_buf[18u]={0};
 
 uint8_t Step_Enable[]={0x03,0xF3,0xAB,0x01,0x00,0x6B};
@@ -78,7 +79,6 @@ uint8_t Step_CCW[]={0x03,0xF6,0x00,0x01,0x3B ,0x0A,0x00,0x6B};//下
 uint8_t Step_Stop[]={0x03,0xFE,0x98,0x00,0x6B};
 uint8_t Step_90_CW[]={0x01,0xFD,0x00,0x00,0xDC,0x01,0x00,0x00,0x03,0x20,0x00,0x00,0x6B};//16细分下3200个脉冲表示一圈
 
-uint16_t pwm_SE=500;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -141,12 +141,12 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
-  __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,500);//扳机归位
-  __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,1500);//送弹归位
-  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_4,500);//四号弹归位
-  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,500);//三号弹归位
-  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_2,500);//二号弹归位
-  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,500);//一号弹归位
+  __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,500);//扳机归位X
+  __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,1300);//送弹归位Z,2500最里面，1300最外面
+  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_4,1500);//四号弹归位E
+  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_3,1500);//三号弹归位F
+  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_2,1500);//二号弹归位G
+  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,1500);//一号弹归位H
 
   /* USER CODE END 2 */
 
@@ -155,7 +155,64 @@ int main(void)
 
   while (1)
   {
-    if(Dart_shoot_flag==1)//启动�???次发�???
+    if(Dart_mode==1)
+    {
+      //左摇杆-前后
+		  if(ctl.rc.ch3>=30||ctl.rc.ch3<=-30)//射程调整
+		  {
+		  	Filter_RC.Filter_Now_ch3=Filter_RC.Filter_a*Filter_RC.Now_Sap_ch3+(1-Filter_RC.Filter_a)*Filter_RC.Filter_Last_ch3;
+		  	M2006_1_Speed=msp(Filter_RC.Filter_Now_ch3,-660,660,-15000,15000);
+		  	LIMIT_Speed_M2006();
+		  	Filter_RC.Filter_Last_ch3=Filter_RC.Filter_Now_ch3;
+		  }
+		  else
+		  {
+		  	M2006_1_Speed=0;
+		  }
+      //左摇杆-左右
+      if(ctl.rc.ch2>=30||ctl.rc.ch2<=-30)//调整yaw轴
+      {
+        if(ctl.rc.ch2>=30) HAL_UART_Transmit_IT(&huart6,Step_CW,sizeof(Step_CW));
+        if(ctl.rc.ch2<=-30) HAL_UART_Transmit_IT(&huart6,Step_CCW,sizeof(Step_CCW));
+      }
+      else
+      {
+        HAL_UART_Transmit_IT(&huart6,Step_Stop,sizeof(Step_Stop));
+      }
+      //右摇杆-前后
+      if(ctl.rc.ch1>=30||ctl.rc.ch1<=-30)//调整3508姿态
+      {
+        Filter_RC.Filter_Now_ch1=Filter_RC.Filter_a*Filter_RC.Now_Sap_ch1+(1-Filter_RC.Filter_a)*Filter_RC.Filter_Last_ch1;
+        M3508_1_Speed=-msp(Filter_RC.Filter_Now_ch1,-660,660,-3000,3000);
+        M3508_2_Speed=msp(Filter_RC.Filter_Now_ch1,-660,660,-3000,3000);
+        LIMIT_Speed_M3508();
+        Filter_RC.Filter_Last_ch1=Filter_RC.Filter_Now_ch1;
+      }
+      else
+      {
+        M3508_1_Speed=0;
+        M3508_2_Speed=0;
+      }
+      //右摇杆-左右
+      if(ctl.rc.ch0>=30||ctl.rc.ch0<=-30)
+      {
+
+      }
+      else
+      {
+
+      }
+      //右拨杆
+      if(ctl.rc.s1==3)
+      {
+        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,500);
+      }
+      else if(ctl.rc.s1==2)
+      {
+        __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,1500);
+      }
+    }
+    if(Dart_shoot_flag==1&&Dart_mode==2)//启动�???发�
 	  {
 		  HAL_Delay(200);
 		  M3508_1_Speed=-2000;
@@ -204,6 +261,18 @@ int main(void)
 		  __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,500);//归位
 		  Dart_shoot_flag=0;
 	  }
+    if(Dart_test_flag==1)
+    {
+      HAL_Delay(200);
+      __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,2500);
+      HAL_Delay(1000);
+      __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,1500);
+      HAL_Delay(1000);
+      __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,500);
+      HAL_Delay(1000);
+      __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,1500);
+      Dart_test_flag=0;
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -296,29 +365,24 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			// M3508_2_Speed=-2000;
       // HAL_UART_Transmit_IT(&huart6,Step_CW,sizeof(Step_CW));
 		}
-//左摇杆-前后
-		if(ctl.rc.ch3>=30||ctl.rc.ch3<=-30)//左�?�道运动合成
-		{
-			Filter_RC.Filter_Now_ch3=Filter_RC.Filter_a*Filter_RC.Now_Sap_ch3+(1-Filter_RC.Filter_a)*Filter_RC.Filter_Last_ch3;
-			M2006_1_Speed=msp(Filter_RC.Filter_Now_ch3,-660,660,-15000,15000);
-			LIMIT_Speed_M2006();
-			Filter_RC.Filter_Last_ch3=Filter_RC.Filter_Now_ch3;
-		}
-		else
-		{
-			M2006_1_Speed=0;
-		}
+
 //左拨杆
-		if(ctl.rc.s2==3)
+		if(ctl.rc.s2==1)
 		{
       // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,500);//扳机归位
       // __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,500);//一号弹归位
+      Dart_mode=1;
 		}
 		else if(ctl.rc.s2==2)
 		{
 	    // __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,1500);//扳机打开90度
-      // __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,1100);//一号弹放下
+      // __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_1,2500);//一号弹放下
+      Dart_mode=2;
 		}
+    else
+    {
+      Dart_mode=3;
+    }
 //右摇杆-左右
     if(ctl.rc.ch0>=30||ctl.rc.ch0<=-30)
     {
